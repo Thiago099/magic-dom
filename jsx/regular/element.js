@@ -1,23 +1,17 @@
-import applyCSSInline from "../../lib/css"
+import UseCSS from "../../lib/css"
 export { element }
 
 class builder
 {
-    $css(css)
+    $css(css, old)
     {
-        if(Array.isArray(css))
+        if(old.element)
         {
-            for(const item of css)
-            {
-                this.$css(item)
-            }
+            old.element.Remove()
         }
-        else
-        {
-            this.__css.push(css)
-            applyCSSInline(css, this)
-        }
-        return this
+        const current = UseCSS(css, this)
+        current.Add()
+        old.element = current
     }
     
     $update()
@@ -42,59 +36,34 @@ class builder
         return this
     }
 
-    $child(element, old)
-    {
-        if(element instanceof HTMLElement)
-        {
-
-            if(element.$css)
-            {
-                element.$css(this.__css)
-            }
-        }
-        else if(typeof(element) == "string")
-        {
-            var text = document.createTextNode(element)
-            element = text
-        }
-
-        if(old.element)
-        {
-            old.element.replaceWith(element)
-        }
-        else
-        {
-            this.appendChild(element)
-        }
-
-        old.element = element;
-
-        return this
-    }
-
     $on(event, callback)
     {
-        document.addEventListener(event, callback)
+        this.addEventListener(event, callback)
         return this
     }
 
-    $parent(element)
+    $style(new_style,old)
     {
-        if(element.$child)
+        if(old.style)
         {
-            element.$child(this)
-            this.$css(element.__css)
-        }
-        else
-        {
-            element.appendChild(this)
+            if(typeof new_style === "object")
+            {
+                for(const key in new_style)
+                {
+                    this.style.setProperty(key, null);
+                }
+            }
+            else
+            {
+                const styles = new_style.split(';').filter((style) => style.length > 0);
+                this.style = {}
+                for(const style of styles) {
+                    const [key, value] = style.split(':');
+                    this.style.setProperty(key,null);
+                }
+            }
         }
 
-        return this
-    }
-
-    $style(new_style)
-    {
         if(typeof new_style === "object")
         {
             for(const key in new_style)
@@ -111,6 +80,34 @@ class builder
                 this.style.setProperty(key,value);
             }
         }
+        old.style = new_style
+
+        return this
+    }
+
+    $parent(element)
+    {
+        element.appendChild(this)
+        return this
+    }
+
+    $child(element, old)
+    {
+        if(!(element instanceof HTMLElement))
+        {
+            element = document.createTextNode(element)
+        }
+
+        if(old.element)
+        {
+            old.element.replaceWith(element)
+        }
+        else
+        {
+            this.appendChild(element)
+        }
+
+        old.element = element;
 
         return this
     }
@@ -120,7 +117,8 @@ var builderInstance = new builder()
 
 var blacklist = [
     "$on",
-    "$update"
+    "$update",
+    "$parent"
 ]
 
 function element(name)
@@ -129,25 +127,11 @@ function element(name)
 
     result = document.createElement(name);
 
-    result.__css = []
     result.__events = []
 
     for(const item of getFunctionsFromClass(builder))
     {
-        if(item == "$child")
-        {
-            result[item] = (...params) => {
-                let old = {}
-                function event()
-                {
-                    params[1] = old
-                    builderInstance[item].apply(result, params.map(p => typeof p === 'function' ? p() : p))
-                }
-                event()
-                result.__events.push(event)
-            }
-        }
-        else if(blacklist.includes(item))
+        if(blacklist.includes(item))
         {
             result[item] = (...params) => {
                 builderInstance[item].apply(result, params)
@@ -156,6 +140,7 @@ function element(name)
         else
         {
             result[item] = (...params) => {
+                params.push({})
                 function event()
                 {
                     builderInstance[item].apply(result, params.map(p => typeof p === 'function' ? p() : p))
@@ -164,6 +149,7 @@ function element(name)
                 result.__events.push(event)
             }
         }
+
 
     }
     return result

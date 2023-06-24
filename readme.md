@@ -3,6 +3,18 @@
 Base jsx vite plugin that interacts well with the dom
 
 instalation:
+```
+run npm create vite
+chose vanilla
+cd to your project folder
+npm install
+```
+create a vite.config.js with the following code:
+
+
+you can either use the lite or the regular version, after that you can crate a jsx file in your
+vite project and use this syntax
+
 ```js
 import { defineConfig } from "vite"
 import { MagicDomVitePlugin, MagicDomLiteVitePlugin }  from "magic-dom/vite-plugin"
@@ -12,8 +24,11 @@ export default defineConfig({
     ],
 ```
 
-you can either use the lite or the regular version, after that you can crate a jsx file in your
-vite project and use this syntax
+alternatively you can clone this repository where i've already done this for you:
+
+```
+git clone https://github.com/Thiago099/magic-dom-vite-example your-project-name
+```
 
 create the element
 ```jsx
@@ -42,7 +57,7 @@ add children to the element
 div.$child(<div></div>)
 ```
 
-add a css that is valid to the element and its children
+add a css to the element and its children
 ```jsx
 div.$css(".class{color:red}")
 ```

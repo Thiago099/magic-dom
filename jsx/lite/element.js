@@ -1,39 +1,18 @@
-import applyCSSInline from "../../lib/css"
+import UseCSS from "../../lib/css"
 export { element }
 
 class builder
 {
     $css(css)
     {
-        if(Array.isArray(css))
-        {
-            for(const item of css)
-            {
-                this.$css(item)
-            }
-        }
-        else
-        {
-            this.__css.push(css)
-            applyCSSInline(css, this)
-        }
-        return this
+        UseCSS(css, this).Add();
     }
 
     $child(element)
     {
-        if(element instanceof HTMLElement)
+        if(!(element instanceof HTMLElement))
         {
-
-            if(element.$css)
-            {
-                element.$css(this.__css)
-            }
-        }
-        else if(typeof(element) == "string")
-        {
-            var text = document.createTextNode(element)
-            element = text
+            element = document.createTextNode(element)
         }
 
         this.appendChild(element)
@@ -43,7 +22,7 @@ class builder
 
     $on(event, callback)
     {
-        document.addEventListener(event, callback)
+        this.addEventListener(event, callback)
         return this
     }
 
@@ -91,9 +70,6 @@ function element(name)
     let result
 
     result = document.createElement(name);
-
-    result.__css = []
-    result.__events = []
 
     for(const item of getFunctionsFromClass(builder))
     {
