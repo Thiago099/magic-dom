@@ -115,6 +115,11 @@ class builder
 
 var builderInstance = new builder()
 
+var blacklist = [
+    "$on",
+    "$update"
+]
+
 function element(name)
 {
     let result
@@ -139,7 +144,7 @@ function element(name)
                 result.__events.push(event)
             }
         }
-        else if(item == "$on")
+        else if(blacklist.includes(item))
         {
             result[item] = (...params) => {
                 builderInstance[item].apply(result, params)
