@@ -118,7 +118,6 @@ var builderInstance = new builder()
 var blacklist = [
     "$on",
     "$update",
-    "$parent"
 ]
 
 function element(name)
