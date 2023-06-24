@@ -1,8 +1,9 @@
 import * as acorn from "acorn";
 import * as escodegen from "escodegen";
 
-import { addFunctionReactivity,addJSXReactivity } from "./reactivity.js";
-export {parse}
+import { addFunctionReactivity, addJSXReactivity } from "./reactivity.js";
+
+export { parse }
 
 function parse(code)
 {

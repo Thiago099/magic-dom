@@ -5,7 +5,7 @@ export default () => ({
         esbuild: {
             jsxFactory: 'JSXNode',
             jsxFragment: 'Fragment',
-            jsxInject: `import { JSXNode, JSXFragment } from "jsx"`,
+            jsxInject: `import { JSXNode, JSXFragment } from "magic-dom"`,
         }
     }),
     transform(code, id, options) {

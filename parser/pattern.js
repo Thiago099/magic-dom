@@ -17,13 +17,14 @@ function findPattern(object, pattern)
         else if(input && typeof input === "object")
         {
             if(matchPattern(input, pattern)) found.push(input)
-            for(const [key,item] of Object.entries(input))
+            for(const item of Object.values(input))
             {
                 _findPattern(item);
             }
         }
     }
 }
+
 function matchPattern(input, pattern)
 {
     if(pattern instanceof RegExp)
