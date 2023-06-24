@@ -40,6 +40,7 @@ class builder
         }
         return this
     }
+    
     $child(element, old)
     {
         if(element instanceof HTMLElement)
@@ -69,18 +70,28 @@ class builder
 
         return this
     }
+
+    $on(event, callback)
+    {
+        document.addEventListener(event, callback)
+        return this
+    }
+
     $parent(element)
     {
         if(element.$child)
         {
             element.$child(this)
+            this.$css(element.__css)
         }
         else
         {
             element.appendChild(this)
         }
+
         return this
     }
+
     $style(new_style)
     {
         if(typeof new_style === "object")
@@ -126,6 +137,12 @@ function element(name)
                 }
                 event()
                 result.__events.push(event)
+            }
+        }
+        else if(item == "$on")
+        {
+            result[item] = (...params) => {
+                builderInstance[item].apply(result, params)
             }
         }
         else

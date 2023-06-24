@@ -3,6 +3,29 @@ import { findPattern, matchPattern } from "./pattern.js";
 
 export { addFunctionReactivity,addJSXReactivity }
 
+
+const input_blacklist = [
+    "on",
+    /on:.+/,
+]
+
+export function isOnBlacklist(key)
+{
+    for(const item of input_blacklist)
+    {
+        if(typeof item == "string")
+        {
+            if(item == key) return true
+        }
+        else if(item instanceof RegExp)
+        {
+            if(item.test(key)) return true
+        }
+    }
+    return false
+}
+
+
 export const jsx_pattern = {
     "type": "CallExpression",
     "callee": {
@@ -28,7 +51,11 @@ function addFunctionReactivity(parsed)
     {
         for(const index in outside_call.arguments)
         {
-            outside_call.arguments[index] = addReactivityIfRelevant(outside_call.arguments[index]);
+            const name = outside_call.callee.property.name;
+            if(!isOnBlacklist(name.replace(/\$/,'')))
+            {
+                outside_call.arguments[index] = addReactivityIfRelevant(outside_call.arguments[index]);
+            }
         }
     }
 }
@@ -44,7 +71,14 @@ function addJSXReactivity(parsed)
         {
             for(const property of properties)
             {
-                property.value = addReactivityIfRelevant(property.value);
+                if(property.key.type == "Identifier")
+                {
+                    property.value = addReactivityIfRelevantProp(property.key.name,property.value);
+                }
+                else if (property.key.type == "Literal")
+                {
+                    property.value = addReactivityIfRelevantProp(property.key.value,property.value);
+                }
             }
         }
         for(var i = 2; i < element.arguments.length; i++)
@@ -52,6 +86,12 @@ function addJSXReactivity(parsed)
             element.arguments[i] = addReactivityIfRelevant(element.arguments[i]);
         }
     }
+}
+
+export function addReactivityIfRelevantProp(key,input)
+{
+    if(isOnBlacklist(key)) return input
+    return addReactivityIfRelevant(input)
 }
 
 function addReactivityIfRelevant(input)

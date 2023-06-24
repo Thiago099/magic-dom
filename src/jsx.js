@@ -34,8 +34,25 @@ const JSXNode = (name, props, ...children) => {
         }
     }
 
+    const extraHandles = {
+        "on": (event,callback) =>
+        {
+            el.$on(event,callback)
+        },
+
+    }
+
     for(var prop in props)
     {
+        const splitProp = prop.split(":");
+        if(splitProp.length == 2)
+        {
+            if(extraHandles[splitProp[0]])
+            {
+                extraHandles[splitProp[0]](splitProp[1],value)
+            }
+        }
+        else
         if(Object.keys(handlers).includes(prop))
         {
             handlers[prop](props[prop])
