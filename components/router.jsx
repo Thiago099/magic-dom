@@ -1,6 +1,6 @@
 
 
-export {Router}
+export { Router }
 
 function trimSlashes(str) {
     // Remove slashes from the start of the string

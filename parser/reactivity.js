@@ -1,5 +1,5 @@
 
-import { findPattern, matchPattern } from "./pattern.js";
+import { findPattern, matchPattern } from "../lib/pattern.js";
 
 export { addFunctionReactivity,addJSXReactivity }
 

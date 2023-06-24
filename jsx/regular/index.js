@@ -1,8 +1,9 @@
 
 export {JSXFragment,JSXNode}
-import { element } from "./builder";
-const JSXFragment = (props, ...children) => undefined
 
+import { element } from "./element";
+
+const JSXFragment = (props, ...children) => undefined
 const JSXNode = (name, props, ...children) => {
     var el;
     if (typeof name === 'function') {

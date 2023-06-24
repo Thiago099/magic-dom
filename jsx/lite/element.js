@@ -1,4 +1,4 @@
-import applyCSSInline from "./css"
+import applyCSSInline from "../../lib/css"
 export { element }
 
 class builder
@@ -19,29 +19,8 @@ class builder
         }
         return this
     }
-    $update()
-    {
-        var elements = this.querySelectorAll('*');
 
-        for(const item of this.__events)
-        {
-            item()
-        }
-
-        for(const element of elements)
-        {
-            if(element.__events)
-            {
-                for(const item of element.__events)
-                {
-                    item()
-                }
-            }
-        }
-        return this
-    }
-
-    $child(element, old)
+    $child(element)
     {
         if(element instanceof HTMLElement)
         {
@@ -57,16 +36,7 @@ class builder
             element = text
         }
 
-        if(old.element)
-        {
-            old.element.replaceWith(element)
-        }
-        else
-        {
-            this.appendChild(element)
-        }
-
-        old.element = element;
+        this.appendChild(element)
 
         return this
     }
@@ -110,15 +80,11 @@ class builder
                 this.style.setProperty(key,value);
             }
         }
+        return this
     }
 }
 
 var builderInstance = new builder()
-
-var blacklist = [
-    "$on",
-    "$update"
-]
 
 function element(name)
 {
@@ -131,37 +97,9 @@ function element(name)
 
     for(const item of getFunctionsFromClass(builder))
     {
-        if(item == "$child")
-        {
-            result[item] = (...params) => {
-                let old = {}
-                function event()
-                {
-                    params[1] = old
-                    builderInstance[item].apply(result, params.map(p => typeof p === 'function' ? p() : p))
-                }
-                event()
-                result.__events.push(event)
-            }
+        result[item] = (...params) => {
+            builderInstance[item].apply(result, params)
         }
-        else if(blacklist.includes(item))
-        {
-            result[item] = (...params) => {
-                builderInstance[item].apply(result, params)
-            }
-        }
-        else
-        {
-            result[item] = (...params) => {
-                function event()
-                {
-                    builderInstance[item].apply(result, params.map(p => typeof p === 'function' ? p() : p))
-                }
-                event()
-                result.__events.push(event)
-            }
-        }
-
     }
     return result
 
