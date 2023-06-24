@@ -40,7 +40,7 @@ class builder
         }
         return this
     }
-    
+
     $child(element, old)
     {
         if(element instanceof HTMLElement)

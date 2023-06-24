@@ -37,6 +37,7 @@ const JSXNode = (name, props, ...children) => {
     const extraHandles = {
         "on": (event,callback) =>
         {
+
             el.$on(event,callback)
         },
 
@@ -49,7 +50,7 @@ const JSXNode = (name, props, ...children) => {
         {
             if(extraHandles[splitProp[0]])
             {
-                extraHandles[splitProp[0]](splitProp[1],value)
+                extraHandles[splitProp[0]](splitProp[1],props[prop])
             }
         }
         else
