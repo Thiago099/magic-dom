@@ -1,7 +1,7 @@
 
 import { findPattern, matchPattern } from "./pattern.js";
 
-export { replace_function_reactivity,replace_jsx_reactivity }
+export { addFunctionReactivity,addJSXReactivity }
 
 export const jsx_pattern = {
     "type": "CallExpression",
@@ -20,7 +20,7 @@ export const function_pattern = {
         }
     }
 }
-function replace_function_reactivity(parsed)
+function addFunctionReactivity(parsed)
 {
     const outside_calls = findPattern(parsed,function_pattern);
     
@@ -28,12 +28,12 @@ function replace_function_reactivity(parsed)
     {
         for(const index in outside_call.arguments)
         {
-            outside_call.arguments[index] = replace_reactive(outside_call.arguments[index]);
+            outside_call.arguments[index] = addReactivityIfRelevant(outside_call.arguments[index]);
         }
     }
 }
 
-function replace_jsx_reactivity(parsed)
+function addJSXReactivity(parsed)
 {
     const elements = findPattern(parsed,jsx_pattern);
 
@@ -44,34 +44,25 @@ function replace_jsx_reactivity(parsed)
         {
             for(const property of properties)
             {
-
-                if(property.key.type == "Identifier")
-                {
-                    property.value = replace_reactive(property.value);
-                }
-                else if (property.key.type == "Literal")
-                {
-                    property.value = replace_reactive(property.value);
-                }
+                property.value = addReactivityIfRelevant(property.value);
             }
         }
         for(var i = 2; i < element.arguments.length; i++)
         {
-            element.arguments[i] = replace_reactive(element.arguments[i]);
+            element.arguments[i] = addReactivityIfRelevant(element.arguments[i]);
         }
     }
 }
 
-
-function replace_reactive(input)
+function addReactivityIfRelevant(input)
 {
   if(isStatic(input)) return input
+  if(input.type == "ArrowFunctionExpression") return input
   return addArrowFunction(input)
 }
 
 function addArrowFunction(input)
 {
-    if(input.type == "ArrowFunctionExpression") return input
     return {
         "type": "ArrowFunctionExpression",      
         "expression": true,
