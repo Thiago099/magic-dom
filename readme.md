@@ -2,15 +2,16 @@
 
 Base jsx vite plugin that interacts well with the dom
 
-instalation:
+## instalation:
+
+run
 ```
-run npm create vite
+npm create vite
 chose vanilla
 cd to your project folder
 npm install
 ```
 create a vite.config.js with the following code:
-
 
 you can either use the lite or the regular version, after that you can crate a jsx file in your
 vite project and use this syntax
