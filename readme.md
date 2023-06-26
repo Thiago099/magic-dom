@@ -1,6 +1,16 @@
 # Magic dom
 
-Base jsx vite plugin that interacts well with the dom
+Base jsx vite plugin
+
+The result of a jsx element creation, is a dom element, with added extra functionality.
+
+example:
+
+```jsx
+var myDiv = <div></div>
+```
+
+myDiv return a dom element, with the added functionality listed below
 
 ## instalation:
 
