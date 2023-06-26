@@ -1,6 +1,6 @@
 {
   "name": "magic-dom",
-  "version": "3.0.6",
+  "version": "3.0.7",
   "description": "",
   "main": "index.js",
   "type": "module",
@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "acorn": "^8.9.0",
     "css": "^3.0.0",
