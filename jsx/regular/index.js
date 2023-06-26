@@ -1,5 +1,6 @@
 
 export {JSXFragment,JSXNode}
+export * from '../../lib/ref.js'
 
 import { element } from "./element";
 
@@ -28,11 +29,14 @@ const JSXNode = (name, props, ...children) => {
             el.$style(style)
         },
         class: _class => {
-            el.className = _class
+            el.$class(_class)
         },
         css: css =>{
             el.$css(css)
-        }
+        },
+        ref: (value) => {
+            value.$element = el;
+        },
     }
 
     const extraHandles = {

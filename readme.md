@@ -68,9 +68,29 @@ add children to the element
 div.$child(<div></div>)
 ```
 
+add a class to the element
+```jsx
+div.$class("class1 class2")
+```
+
 add a css to the element and its children
 ```jsx
 div.$css(".class{color:red}")
+```
+
+you can acess your object trough ref, most vanilla dom functions and all functions added by this library should work,
+if they don't just use myRef.$element instead
+```jsx
+myRef = ref()
+
+var element =
+<div>
+    <button ref={myRef}>Test</button>
+</div>
+
+myRef.$on("click",()=>{
+    console.log("clicked")
+})
 ```
 
 (non lite version only) all variables that are passed to the element retained, so when you call

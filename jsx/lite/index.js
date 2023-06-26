@@ -1,6 +1,8 @@
 
 export {JSXFragment,JSXNode}
 import { element } from "./element";
+export * from '../../lib/ref.js'
+
 const JSXFragment = (props, ...children) => undefined
 const JSXNode = (name, props, ...children) => {
     var el;
@@ -30,7 +32,10 @@ const JSXNode = (name, props, ...children) => {
         },
         css: css =>{
             el.$css(css)
-        }
+        },
+        ref: (value) => {
+            value.$element = el;
+        },
     }
 
     const extraHandles = {

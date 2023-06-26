@@ -31,7 +31,6 @@ class builder
         if(element.$child)
         {
             element.$child(this)
-            this.$css(element.__css)
         }
         else
         {
@@ -39,6 +38,16 @@ class builder
         }
 
         return this
+    }
+
+    
+    $class(newClasses)
+    {
+        var newClassesSplit = newClasses.split(" ")
+        for(const newClass of newClassesSplit)
+        {
+            this.classList.add(newClass)
+        }
     }
 
     $style(new_style)

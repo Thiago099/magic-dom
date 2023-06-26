@@ -6,6 +6,7 @@ export { addFunctionReactivity,addJSXReactivity }
 
 const input_blacklist = [
     "on",
+    "ref",
     /on:.+/,
 ]
 

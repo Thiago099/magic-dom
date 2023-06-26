@@ -19,7 +19,7 @@ function Plugin(config)
             esbuild: {
                 jsxFactory: 'JSXNode',
                 jsxFragment: 'Fragment',
-                jsxInject: `import { JSXNode, JSXFragment } from "magic-dom/jsx/${config}/index.js"`,
+                jsxInject: `import { JSXNode, JSXFragment, ref } from "magic-dom/jsx/${config}/index.js"`,
             }
         }),
         transform(code, id, options) {

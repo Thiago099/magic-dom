@@ -85,6 +85,23 @@ class builder
         return this
     }
 
+    $class(newClasses, old)
+    {
+        var newClassesSplit = newClasses.split(" ")
+        if(old.classesSplit)
+        {
+            for(const oldClass of old.classesSplit)
+            {
+                this.classList.remove(oldClass)
+            }
+        }
+        for(const newClass of newClassesSplit)
+        {
+            this.classList.add(newClass)
+        }
+        old.classesSplit = newClassesSplit
+    }
+
     $parent(element)
     {
         element.appendChild(this)
