@@ -1,6 +1,8 @@
 # Magic dom
 
-Base jsx vite plugin
+## Explanation
+
+This is a frontend library that allow you to use jsx syntax. This library has two setup options, a lite weight version that does not track your variables, and a complete version that allow you to call a update function that fetches all the variables again. note that it access them again so you might want to use for(const item of data) instead of for(let item of data) 
 
 The result of a jsx element creation, is a dom element, with added extra functionality.
 
@@ -33,6 +35,7 @@ export default defineConfig({
     plugins:[
         MagicDomVitePlugin(),
     ],
+})
 ```
 
 alternatively you can clone this repository where i've already done this for you:
@@ -40,6 +43,8 @@ alternatively you can clone this repository where i've already done this for you
 ```
 git clone https://github.com/Thiago099/magic-dom-vite-example your-project-name
 ```
+
+## Usage
 
 create the element
 ```jsx
