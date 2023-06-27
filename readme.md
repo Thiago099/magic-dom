@@ -98,7 +98,7 @@ myRef.$on("click",()=>{
 })
 ```
 
-(non lite version only) all variables that are passed to the element retained, so when you call
+(non lite version only) all variables that are passed to the element(both trough jsx and the $ methods) retained, so when you call
 the update it fetches them again
 ```jsx
 div.$update()
