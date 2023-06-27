@@ -25,7 +25,7 @@ npm install
 ```
 create a vite.config.js with the following code:
 
-you can either use the lite or the regular version, after that you can crate a jsx file in your
+you can either use the lite or the regular version, after that you can create a jsx file in your
 vite project and use this syntax
 
 ```js
