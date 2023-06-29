@@ -18,7 +18,7 @@ function Plugin(config)
         config: () => ({
             esbuild: {
                 jsxFactory: 'JSXNode',
-                jsxFragment: 'Fragment',
+                jsxFragment: 'JSXFragment',
                 jsxInject: config,
             }
         }),

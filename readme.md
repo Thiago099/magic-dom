@@ -97,6 +97,17 @@ myRef.$on("click",()=>{
     console.log("clicked")
 })
 ```
+
+you can create function components
+```jsx
+function Component({text},children)
+{
+    return <div>{text} {children}</div>;
+}
+
+const instance = <Component text="hello world">content</Component>
+```
+
 ## non lite version only
 
 all variables that are passed to the element(both trough jsx and the $ methods) retained, so when you call

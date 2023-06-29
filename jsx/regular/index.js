@@ -18,12 +18,12 @@ const JSXNode = (name, props, ...children) => {
     else
     {
         el = element(name);
+        for(const child of children)
+        {
+            el.$child(child)
+        }
     }
 
-    for(const child of children)
-    {
-        el.$child(child)
-    }
 
     const handlers = {
         style: style=>{
