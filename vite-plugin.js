@@ -4,11 +4,11 @@ export { MagicDomVitePlugin, MagicDomLiteVitePlugin }
 
 function MagicDomLiteVitePlugin()
 {
-    return Plugin("lite")
+    return Plugin(`import { JSXNode, JSXFragment, ref } from "magic-dom/jsx/lite/index.js"`)
 }
 function MagicDomVitePlugin()
 {
-    return Plugin("regular")
+    return Plugin(`import { JSXNode, JSXFragment, ref, state } from "magic-dom/jsx/regular/index.js"`)
 }
 
 function Plugin(config)
@@ -19,7 +19,7 @@ function Plugin(config)
             esbuild: {
                 jsxFactory: 'JSXNode',
                 jsxFragment: 'Fragment',
-                jsxInject: `import { JSXNode, JSXFragment, ref } from "magic-dom/jsx/${config}/index.js"`,
+                jsxInject: config,
             }
         }),
         transform(code, id, options) {

@@ -1,6 +1,7 @@
 
 export {JSXFragment,JSXNode}
 export * from '../../lib/ref.js'
+export * from '../../lib/state.js'
 
 import { element } from "./element";
 
@@ -33,6 +34,9 @@ const JSXNode = (name, props, ...children) => {
         },
         css: css =>{
             el.$css(css)
+        },
+        model: css =>{
+            el.$model(css)
         },
         ref: (value) => {
             value.$element = el;

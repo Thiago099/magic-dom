@@ -108,6 +108,18 @@ class builder
         return this
     }
 
+    $model(element, old)
+    {
+        this.value = element.$value
+        if(!old.added)
+        {
+            old.added = true
+            this.$on("input",()=>{
+                element.$value = this.value
+            })
+        }
+    }
+
     $child(element, old)
     {
         if(!(element instanceof HTMLElement))
@@ -135,6 +147,7 @@ var builderInstance = new builder()
 var blacklist = [
     "$on",
     "$update",
+    "$parent"
 ]
 
 function element(name)
@@ -159,9 +172,45 @@ function element(name)
                 params.push({})
                 function event()
                 {
-                    builderInstance[item].apply(result, params.map(p => typeof p === 'function' ? p() : p))
+                    var parameters = []
+                    for(const parameter of params)
+                    {
+                        var currentParameter = typeof parameter === 'function' ? parameter() : parameter
+                        if(currentParameter?.$key == "ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62" && item != "$model")
+                        {
+                            parameters.push(currentParameter.$value)
+                        }
+                        else
+                        {
+                            parameters.push(currentParameter)
+                        }
+                    }
+                    builderInstance[item].apply(result, parameters)
                 }
-                event()
+                var parameters = []
+                for(const parameter of params)
+                {
+                    var currentParameter = typeof parameter === 'function' ? parameter() : parameter
+                    if(currentParameter?.$key == "ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62" )
+                    {
+                        currentParameter.$subscribe(result)
+                        if(item == "$model")
+                        {
+                            parameters.push(currentParameter)
+                        }
+                        else
+                        {
+                            parameters.push(currentParameter.$value)
+                        }
+
+                    }
+                    else
+                    {
+                        parameters.push(currentParameter)
+                    }
+                }
+                builderInstance[item].apply(result, parameters)
+                
                 result.__events.push(event)
             }
         }
