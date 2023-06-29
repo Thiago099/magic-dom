@@ -104,7 +104,7 @@ the update it fetches them again
 div.$update()
 ```
 
-State will automatically update the element when changed
+State will automatically update when it is changed
 ```jsx
 var myState = state("hello");
 var myDiv = <div>{myState}</div>
