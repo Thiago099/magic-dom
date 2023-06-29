@@ -150,6 +150,15 @@ var blacklist = [
     "$parent"
 ]
 
+function dig(element)
+{
+    while(typeof element == "function")
+    {
+        element = element()
+    }
+    return element
+}
+
 function element(name)
 {
     let result
@@ -175,7 +184,7 @@ function element(name)
                     var parameters = []
                     for(const parameter of params)
                     {
-                        var currentParameter = typeof parameter === 'function' ? parameter() : parameter
+                        var currentParameter = dig(parameter)
                         if(currentParameter?.$key == "ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62" && item != "$model")
                         {
                             parameters.push(currentParameter.$value)
@@ -190,7 +199,7 @@ function element(name)
                 var parameters = []
                 for(const parameter of params)
                 {
-                    var currentParameter = typeof parameter === 'function' ? parameter() : parameter
+                    var currentParameter = dig(parameter)
                     if(currentParameter?.$key == "ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62" )
                     {
                         currentParameter.$subscribe(result)

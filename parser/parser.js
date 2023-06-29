@@ -9,6 +9,7 @@ function parse(code)
 {
     const parsed = acorn.parse(code, {ecmaVersion: "latest",sourceType: "module"});
 
+    // console.log(JSON.stringify(parsed,null,4))
     addFunctionReactivity(parsed)
     addJSXReactivity(parsed)
 

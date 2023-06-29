@@ -7,6 +7,7 @@ export { addFunctionReactivity,addJSXReactivity }
 const input_blacklist = [
     "on",
     "ref",
+    "parent",
     /on:.+/,
 ]
 
@@ -72,6 +73,7 @@ function addJSXReactivity(parsed)
         {
             for(const property of properties)
             {
+                property.shorthand = false;
                 if(property.key.type == "Identifier")
                 {
                     property.value = addReactivityIfRelevantProp(property.key.name,property.value);

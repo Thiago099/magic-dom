@@ -5,11 +5,36 @@ export * from './state.js'
 
 import { element } from "./element";
 
+function callArray(x)
+{
+    return x.map(y=>dig(y))
+}
+function callObject(x)
+{
+    var result = {}
+    for(const item in x)
+    {
+        result[item] = dig(x[item])
+    }
+    return result
+}
+
+function dig(element)
+{
+    let old = element
+    while(typeof element == "function")
+    {
+        old = element
+        element = element()
+    }
+    return old
+}
+
 const JSXFragment = (props, ...children) => undefined
 const JSXNode = (name, props, ...children) => {
     var el;
     if (typeof name === 'function') {
-        el = name(props, ...children);
+        el = name(callObject(props), ...callArray(children));
         if(el === undefined)
         {
             return children

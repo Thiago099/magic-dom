@@ -99,6 +99,7 @@ myRef.$on("click",()=>{
 ```
 
 you can create function components
+
 ```jsx
 function Component({text},children)
 {
@@ -111,7 +112,7 @@ const instance = <Component text="hello world">content</Component>
 ## non lite version only
 
 all variables that are passed to the element(both trough jsx and the $ methods) retained, so when you call
-the update it fetches them again
+the update it fetches them again or use state that will fetch them automatically
 ```jsx
 div.$update()
 ```
@@ -139,3 +140,18 @@ or
 var myInput = <input/>
 myInput.$model(myState)
 ```
+
+
+non static parameters will be passed as a function, that can either be used in
+the elements, or read by calling it
+
+```jsx
+function Component({text},children)
+{
+    console.log(text())
+    return <div>{text} {children}</div>;
+}
+var text = "hi"
+const instance = <Component text={text}>content</Component>
+```
+
