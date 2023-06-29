@@ -101,9 +101,9 @@ myRef.$on("click",()=>{
 you can create function components
 
 ```jsx
-function Component({text},children)
+function Component({text},child1, child2)
 {
-    return <div>{text} {children}</div>;
+    return <div>{text} {child1} {child2}</div>;
 }
 
 const instance = <Component text="hello world">content</Component>
@@ -146,10 +146,10 @@ non static parameters will be passed as a function, that can either be used in
 the elements, or read by calling it
 
 ```jsx
-function Component({text},children)
+function Component({text},child1,child2)
 {
     console.log(text())
-    return <div>{text} {children}</div>;
+    return <div>{text} {child1} {child2}</div>;
 }
 var text = "hi"
 const instance = <Component text={text}>content</Component>
