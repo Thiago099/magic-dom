@@ -11,8 +11,7 @@ function state(value){
             if (key === 'ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62') return true;
             if (
                     typeof target[key] === 'object' &&
-                    target[key] !== null && 
-                    !(target[key] instanceof HTMLElement)
+                    target[key] !== null
                 ) 
                 {
                     return new Proxy(target[key], validator)

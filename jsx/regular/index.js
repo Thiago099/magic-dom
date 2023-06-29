@@ -1,7 +1,7 @@
 
 export {JSXFragment,JSXNode}
 export * from '../../lib/ref.js'
-export * from '../../lib/state.js'
+export * from './state.js'
 
 import { element } from "./element";
 

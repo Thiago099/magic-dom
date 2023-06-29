@@ -96,10 +96,34 @@ var element =
 myRef.$on("click",()=>{
     console.log("clicked")
 })
+## non lite version only
 ```
-
-(non lite version only) all variables that are passed to the element(both trough jsx and the $ methods) retained, so when you call
+all variables that are passed to the element(both trough jsx and the $ methods) retained, so when you call
 the update it fetches them again
 ```jsx
 div.$update()
+```
+
+State will automatically update the element when changed
+```jsx
+var myState = state("hello");
+var myDiv = <div>{myState}</div>
+var myState.$value = "world"
+```
+
+you can pass a object and or array trough the state
+```jsx
+var myState = state({myProperty:"hello"});
+var myDiv = <div>{myState.myProperty}</div>
+var myState.myProperty.$value = "world"
+```
+
+You can use the model keyword to sync a state with a input value
+```jsx
+var myInput = <input model={myState}/>
+```
+or 
+```jsx
+var myInput = <input/>
+myInput.$model(myState)
 ```
