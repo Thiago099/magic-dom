@@ -108,14 +108,14 @@ State will automatically update the element when changed
 ```jsx
 var myState = state("hello");
 var myDiv = <div>{myState}</div>
-var myState.$value = "world"
+myState.$value = "world"
 ```
 
 you can pass a object and or array trough the state
 ```jsx
 var myState = state({myProperty:"hello"});
 var myDiv = <div>{myState.myProperty}</div>
-var myState.myProperty.$value = "world"
+myState.myProperty.$value = "world"
 ```
 
 You can use the model keyword to sync a state with a input value
