@@ -2,7 +2,7 @@
 
 ## Explanation
 
-This is a frontend library that allow you to use jsx syntax. This library has two setup options, a lite weight version that does not track your variables, and a complete version that allow you to call a update function that fetches all the variables again. note that it access them again so you might want to use for(const item of data) instead of for(let item of data) 
+This is a frontend library that allow you to use jsx syntax. This library has two setup options, a lite weight version that does not track your variables, and a complete version with reactivity. note that in the complete version you might want to use for(const item of data) instead of for(let item of data) as it fetches the variables again from the context
 
 The result of a jsx element creation, is a dom element, with added extra functionality.
 
