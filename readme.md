@@ -96,8 +96,9 @@ var element =
 myRef.$on("click",()=>{
     console.log("clicked")
 })
-## non lite version only
 ```
+## non lite version only
+
 all variables that are passed to the element(both trough jsx and the $ methods) retained, so when you call
 the update it fetches them again
 ```jsx
