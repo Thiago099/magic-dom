@@ -87,7 +87,15 @@ class builder
 
     $class(newClasses, old)
     {
-        var newClassesSplit = newClasses.split(" ")
+        let newClassesSplit
+        if(typeof newClasses == "object")
+        {
+            newClassesSplit = Object.keys(newClasses).filter(x=>newClasses[x])
+        }
+        else
+        {
+            newClassesSplit = newClasses.split(" ")
+        }
         if(old.classesSplit)
         {
             for(const oldClass of old.classesSplit)
@@ -219,7 +227,6 @@ function element(name)
                     }
                 }
                 builderInstance[item].apply(result, parameters)
-                
                 result.__events.push(event)
             }
         }

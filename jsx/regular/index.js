@@ -60,11 +60,12 @@ const JSXNode = (name, props, ...children) => {
         css: css =>{
             el.$css(css)
         },
-        model: css =>{
-            el.$model(css)
-        },
         ref: (value) => {
             value.$element = el;
+        },
+
+        model: css =>{
+            el.$model(css)
         },
     }
 

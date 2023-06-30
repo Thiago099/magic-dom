@@ -43,7 +43,15 @@ class builder
     
     $class(newClasses)
     {
-        var newClassesSplit = newClasses.split(" ")
+        let newClassesSplit
+        if(typeof newClasses == "object")
+        {
+            newClassesSplit = Object.keys(newClasses).filter(x=>newClasses[x])
+        }
+        else
+        {
+            newClassesSplit = newClasses.split(" ")
+        }
         for(const newClass of newClassesSplit)
         {
             this.classList.add(newClass)
