@@ -17,7 +17,10 @@ function Router(routes)
         currentPath = trim(window.location.pathname);
         var path = currentPath.split('/').filter(x => x !== "")
         container.innerHTML = ""
-
+        if(routes["loading"] !== undefined) 
+        {
+            routes["loading"].$parent(container)
+        }
         for(var route in routes)
         {
             var routePath = trim(route).split('/').filter(x => x !== "")
@@ -42,6 +45,7 @@ function Router(routes)
                 {
                     routes[route]()
                     .then(module => {
+                        container.innerHTML = ""
                         module.default(parameters).$parent(container)
                     })
                     return
@@ -52,6 +56,7 @@ function Router(routes)
         {
             routes["404"]()
             .then(module => {
+                container.innerHTML = ""
                 module.default().$parent(container)
             })
         }
