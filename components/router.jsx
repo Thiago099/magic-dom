@@ -1,55 +1,78 @@
+/*
 
+//usage:
+
+
+import { Router } from "magic-dom/components/router.jsx"
+
+const router = Router({
+    "route": () => import("path/to/page.jsx")
+    "route2": () => import("path/to/page2.jsx")
+    "person/{id}": () => import("path/to/page3.jsx")
+    "404": () => import("path/to/404-page.jsx")
+    "loading": loadingPage()
+})
+
+router.container.$parent(document.body)
+
+console.log(router.getPath()) //current path
+
+router.go("route2") // navigate to the router path
+
+
+// person.jsx
+
+function Person({id})
+{
+    return <div>{id}</div>
+}
+
+*/
 
 export { Router }
 
 
+
+
+
 function Router(routes)
 {
-    var container = <div></div>
-    var currentPath = trim(window.location.pathname);
-    navigatePath()
+    const patterns = Object.keys(routes).map(buildPattern)
+    const container = <div></div>
+
+    let currentPath;
+    
+    if(!routes["/"] && currentPath == "")
+    {
+        go(Object.keys(routes)[0])
+    }
+    else
+    {
+        navigatePath()
+    }
     //on popstate
     window.onpopstate = function(event) {
         navigatePath()
     };
     function navigatePath()
     {
-        currentPath = trim(window.location.pathname);
-        var path = currentPath.split('/').filter(x => x !== "")
+        currentPath = cleanUp(window.location.pathname);
         container.innerHTML = ""
         if(routes["loading"] !== undefined) 
         {
             routes["loading"].$parent(container)
         }
-        for(var route in routes)
+        for(const {match, route} of patterns)
         {
-            var routePath = trim(route).split('/').filter(x => x !== "")
-            var parameters = {go}
-            if(routePath.length === path.length)
+            const result = match(currentPath)
+            if(result)
             {
-                var match = true
-                for(var i = 0; i < routePath.length; i++)
-                {
-                    if(routePath[i].startsWith('{') && routePath[i].endsWith('}'))
-                    {
-                        parameters[routePath[i].replace('{','').replace('}','')] = path[i]
-                        continue
-                    }
-                    else if(routePath[i] !== path[i])
-                    {
-                        match = false
-                        break
-                    }
-                }
-                if(match)
-                {
-                    routes[route]()
-                    .then(module => {
-                        container.innerHTML = ""
-                        module.default(parameters).$parent(container)
-                    })
-                    return
-                }
+                routes[route]()
+                .then(module => {
+                    container.innerHTML = ""
+                    module.default({go,...result}).$parent(container)
+                })
+                return
             }
         }
         if(routes["404"] !== undefined) 
@@ -60,27 +83,63 @@ function Router(routes)
                 module.default().$parent(container)
             })
         }
+        else
+        {
+            container.innerHTML = ""
+        }
 
     }
 
-    function path()
+    function getPath()
     {
         return currentPath
     }
 
     function go(path)
     {
-        path = trim(path)
-        if(trim(currentPath) === path) return
+        path = cleanUp(path)
+        if(currentPath === path) return
         if(path === "") path = "/"
-        window.history.pushState({}, path, path);
+
+        window.history.pushState({}, "", window.location.origin + "/" + path);
         currentPath = path
         navigatePath()
     }
-    return {container, go, path}
+    return {container, go, getPath}
 }
 
-function trim(str)
+function cleanUp(str)
 {
-    return str.replace(/(^(\/| )+)|((\/| )+$)/g,"")
+    return str.replace(/(^(\/| )+)|((\/| )+$)/g,"").replace(/(\\|\/)+/g,"/")
+}
+
+function buildPattern(pattern)
+{
+    var groups = []
+    var regex = new RegExp("^"+pattern.replace(/{.*?}/g,group=>{
+        groups.push(group.replace(/({|})/g,""))
+        return "(.*?)"
+    })+"$")
+
+    console.log(regex)
+
+    function match(data)
+    {
+        var match = data.match(regex)
+        
+        if(match)
+        {
+            match = match.slice(1)
+            var result = {}
+            for(var i = 0; i < match.length;i++)
+            {
+                result[groups[i]] = match[i]
+            }
+            return result
+        }
+
+        return false
+    }
+
+    return {match,route:pattern}
 }
