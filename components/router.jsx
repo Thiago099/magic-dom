@@ -110,7 +110,7 @@ function Router(routes)
 
 function cleanUp(str)
 {
-    return str.replace(/(^(\/| )+)|((\/| )+$)/g,"").replace(/(\\|\/)+/g,"/")
+    return str.replace(/(^(\/| )+)|((\/| )+$)/g,"")
 }
 
 function buildPattern(pattern)
