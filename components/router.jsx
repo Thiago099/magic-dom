@@ -67,10 +67,14 @@ function Router(routes, main=null)
             const result = match(currentPath)
             if(result)
             {
+            
                 routes[route]()
                 .then(module => {
                     container.innerHTML = ""
                     module.default({navigate,...result}).$parent(container)
+                })
+                .catch(() => {
+                    container.innerHTML = ""
                 })
                 return
             }
@@ -81,6 +85,9 @@ function Router(routes, main=null)
             .then(module => {
                 container.innerHTML = ""
                 module.default().$parent(container)
+            })
+            .catch(() => {
+                container.innerHTML = ""
             })
         }
         else
@@ -120,9 +127,6 @@ function buildPattern(pattern)
         groups.push(group.replace(/({|})/g,""))
         return "(.*?)"
     })+"$")
-
-    console.log(regex)
-
     function match(data)
     {
         var match = data.match(regex)

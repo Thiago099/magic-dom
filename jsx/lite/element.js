@@ -22,7 +22,20 @@ class builder
 
     $on(event, callback)
     {
-        this.addEventListener(event, callback)
+        const self = this
+
+        function remove()
+        {
+            self.removeEventListener(event,capture)
+        }
+
+        function capture(e)
+        {
+            callback(e, remove)
+        }
+
+        this.addEventListener(event, capture)
+        
         return this
     }
 
