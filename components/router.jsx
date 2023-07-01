@@ -6,12 +6,12 @@
 import { Router } from "magic-dom/components/router.jsx"
 
 const router = Router({
-    "route": () => import("path/to/page.jsx")
+    "/": () => import("path/to/page.jsx")
     "route2": () => import("path/to/page2.jsx")
     "person/{id}": () => import("path/to/page3.jsx")
     "404": () => import("path/to/404-page.jsx")
     "loading": loadingPage()
-})
+},"route")// main route if there is no / route
 
 router.container.$parent(document.body)
 
@@ -35,28 +35,28 @@ export { Router }
 
 
 
-function Router(routes)
+function Router(routes, main=null)
 {
     const patterns = Object.keys(routes).map(buildPattern)
     const container = <div></div>
 
-    let currentPath;
-    
+    let currentPath  = cleanUp(window.location.pathname);
     if(!routes["/"] && currentPath == "")
     {
-        go(Object.keys(routes)[0])
+        go(main ??Object.keys(routes)[0])
     }
     else
     {
-        navigatePath()
+        updatePageContainer()
     }
+    
     //on popstate
-    window.onpopstate = function(event) {
-        navigatePath()
-    };
-    function navigatePath()
-    {
+    window.addEventListener("popstate", function(event) {
         currentPath = cleanUp(window.location.pathname);
+        updatePageContainer()
+    })
+    function updatePageContainer()
+    {
         container.innerHTML = ""
         if(routes["loading"] !== undefined) 
         {
@@ -103,7 +103,7 @@ function Router(routes)
 
         window.history.pushState({}, "", window.location.origin + "/" + path);
         currentPath = path
-        navigatePath()
+        updatePageContainer()
     }
     return {container, go, getPath}
 }
