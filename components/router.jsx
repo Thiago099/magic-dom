@@ -70,7 +70,7 @@ function Router(routes, main=null)
                 routes[route]()
                 .then(module => {
                     container.innerHTML = ""
-                    module.default({go,...result}).$parent(container)
+                    module.default({navigate,...result}).$parent(container)
                 })
                 return
             }
@@ -95,7 +95,7 @@ function Router(routes, main=null)
         return currentPath
     }
 
-    function go(path)
+    function navigate(path)
     {
         path = cleanUp(path)
         if(currentPath === path) return
@@ -105,7 +105,7 @@ function Router(routes, main=null)
         currentPath = path
         updatePageContainer()
     }
-    return {container, go, getPath}
+    return {container, navigate, getPath}
 }
 
 function cleanUp(str)
