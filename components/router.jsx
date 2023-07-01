@@ -43,7 +43,7 @@ function Router(routes, main=null)
     let currentPath  = cleanUp(window.location.pathname);
     if(!routes["/"] && currentPath == "")
     {
-        go(main ??Object.keys(routes)[0])
+        navigate(main ??Object.keys(routes)[0])
     }
     else
     {
