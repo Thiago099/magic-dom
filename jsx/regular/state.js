@@ -7,6 +7,7 @@ function state(value){
 
     const validator = {
         get(target, key) {
+            if (key === '$on') return on;
             if (key === '$subscribe') return subscribe;
             if (key === 'ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62') return true;
             if (
@@ -61,6 +62,10 @@ function state(value){
         {
             return subscribe
         },
+        get $on()
+        {
+            return on
+        },
         set $value(v)
         {
             value = v
@@ -68,6 +73,11 @@ function state(value){
                 element.$update();
             }
         }
+    }
+
+    function on(callback)
+    {
+        elements.add({$update:callback})
     }
 
     function subscribe(callback){

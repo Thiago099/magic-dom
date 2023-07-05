@@ -4,31 +4,8 @@ export * from '../../lib/ref.js'
 export * from './state.js'
 
 import { element } from "./element";
+import { dig, callArray, callObject } from './utils.js';
 
-function callArray(x)
-{
-    return x.map(y=>dig(y))
-}
-function callObject(x)
-{
-    var result = {}
-    for(const item in x)
-    {
-        result[item] = dig(x[item])
-    }
-    return result
-}
-
-function dig(element)
-{
-    let old = element
-    while(typeof element == "function")
-    {
-        old = element
-        element = element()
-    }
-    return old
-}
 
 const JSXFragment = (props, ...children) => undefined
 const JSXNode = (name, props, ...children) => {
@@ -95,7 +72,7 @@ const JSXNode = (name, props, ...children) => {
         }
         else
         {
-            el[prop] = props[prop]
+            el[prop] = dig(props[prop])
         }
     }
 

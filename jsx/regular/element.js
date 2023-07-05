@@ -1,6 +1,6 @@
 import UseCSS from "../../lib/css"
 export { element }
-
+import { dig } from "./utils"
 class builder
 {
     $css(css, old)
@@ -171,14 +171,6 @@ var blacklist = [
     "$parent"
 ]
 
-function dig(element)
-{
-    while(typeof element == "function")
-    {
-        element = element()
-    }
-    return element
-}
 
 function element(name)
 {
