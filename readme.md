@@ -124,6 +124,21 @@ var myDiv = <div>{myState}</div>
 myState.$value = "world"
 ```
 
+when calculating something with the state, the library will not be able
+to get the state from the operation, which can be mitigated trough the subscribe
+```jsx
+var myState = state("hello");
+var myDiv = <div subscribe={myState}>{myState.$value + " world"}</div>
+myState.$value = "hi"
+```
+or
+```jsx
+var myState = state("hello");
+var myDiv = <div>{myState.$value + " world"}</div>
+myDiv.$subscribe(myState)
+myState.$value = "hi"
+```
+
 you can pass a object and or array trough the state
 ```jsx
 var myState = state({myProperty:"hello"});

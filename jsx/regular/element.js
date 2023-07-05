@@ -161,6 +161,15 @@ class builder
 
         return this
     }
+
+    $subscribe(parameter)
+    {
+        var currentParameter = dig(parameter)
+        if(currentParameter?.$key == "ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62" )
+        {
+            currentParameter.$subscribe(this)
+        }
+    }
 }
 
 var builderInstance = new builder()
@@ -168,7 +177,8 @@ var builderInstance = new builder()
 var blacklist = [
     "$on",
     "$update",
-    "$parent"
+    "$parent",
+    "$subscribe"
 ]
 
 
