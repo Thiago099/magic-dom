@@ -3,14 +3,16 @@ var zindex = 1000;
 
 export { Modal }
 
-function Modal(content,onClose)
+function Modal(page,onClose)
 {
+
+    const element = page(close)
     const close_button = ref()
     const prompt = ref()
     const modal = 
     <div class="modal-background" v-show="visible">
         <div class="modal-prompt" ref={prompt}>
-            <span class="close-button" ref={close_button} id="close">✖</span>{content}</div>
+            <span class="close-button" ref={close_button} id="close">✖</span>{element}</div>
     </div>
 
     prompt.$on("click",e => e.stopPropagation())
@@ -30,5 +32,4 @@ function Modal(content,onClose)
     }
     close_button.$on("click",close)
     modal.$parent(document.body)
-    return {close}
 }
