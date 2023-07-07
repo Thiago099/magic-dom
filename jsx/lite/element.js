@@ -39,6 +39,11 @@ class builder
         return this
     }
 
+    $getComputedStyle(name)
+    {
+        return window.getComputedStyle(this).getPropertyValue(name)
+    }
+
     $parent(element)
     {
         if(element.$child)
@@ -104,7 +109,7 @@ function element(name)
     for(const item of getFunctionsFromClass(builder))
     {
         result[item] = (...params) => {
-            builderInstance[item].apply(result, params)
+            return builderInstance[item].apply(result, params)
         }
     }
     return result

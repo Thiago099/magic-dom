@@ -40,8 +40,8 @@ const JSXNode = (name, props, ...children) => {
         ref: (value) => {
             value.$element = el;
         },
-        subscribe: (value) =>{
-            el.$subscribe(value)
+        state: (value) =>{
+            el.$state(value)
         },
 
         model: css =>{

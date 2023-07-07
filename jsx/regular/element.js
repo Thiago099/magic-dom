@@ -123,6 +123,11 @@ class builder
         old.classesSplit = newClassesSplit
     }
 
+    $getComputedStyle(name)
+    {
+        return window.getComputedStyle(this).getPropertyValue(name)
+    }
+
     $parent(element)
     {
         element.appendChild(this)
@@ -131,12 +136,12 @@ class builder
 
     $model(element, old)
     {
-        this.value = element.$value
+        this.value = element.value
         if(!old.added)
         {
             old.added = true
             this.$on("input",()=>{
-                element.$value = this.value
+                element.value = this.value
             })
         }
     }
@@ -162,7 +167,7 @@ class builder
         return this
     }
 
-    $subscribe(parameter)
+    $state(parameter)
     {
         var currentParameter = dig(parameter)
         if(currentParameter?.$key == "ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62" )
@@ -178,7 +183,7 @@ var blacklist = [
     "$on",
     "$update",
     "$parent",
-    "$subscribe"
+    "$state"
 ]
 
 
@@ -195,7 +200,7 @@ function element(name)
         if(blacklist.includes(item))
         {
             result[item] = (...params) => {
-                builderInstance[item].apply(result, params)
+                return builderInstance[item].apply(result, params)
             }
         }
         else
@@ -210,14 +215,14 @@ function element(name)
                         var currentParameter = dig(parameter)
                         if(currentParameter?.$key == "ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62" && item != "$model")
                         {
-                            parameters.push(currentParameter.$value)
+                            parameters.push(currentParameter.value)
                         }
                         else
                         {
                             parameters.push(currentParameter)
                         }
                     }
-                    builderInstance[item].apply(result, parameters)
+                    return builderInstance[item].apply(result, parameters)
                 }
                 var parameters = []
                 for(const parameter of params)
@@ -232,7 +237,7 @@ function element(name)
                         }
                         else
                         {
-                            parameters.push(currentParameter.$value)
+                            parameters.push(currentParameter.value)
                         }
 
                     }
@@ -241,8 +246,8 @@ function element(name)
                         parameters.push(currentParameter)
                     }
                 }
-                builderInstance[item].apply(result, parameters)
                 result.__events.push(event)
+                return builderInstance[item].apply(result, parameters)
             }
         }
 

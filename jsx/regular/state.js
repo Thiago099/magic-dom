@@ -21,14 +21,14 @@ function state(value){
                     get $key() {
                         return 'ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62';
                     },
-                    get $value(){
+                    get value(){
                         return target[key]
                     },
                     get $subscribe()
                     {
                         return subscribe
                     },
-                    set $value(v)
+                    set value(v)
                     {
                         target[key] = v
                         for(const element of elements){
@@ -55,7 +55,7 @@ function state(value){
         get $key() {
             return 'ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62';
         },
-        get $value(){
+        get value(){
             return value
         },
         get $subscribe()
@@ -66,7 +66,7 @@ function state(value){
         {
             return on
         },
-        set $value(v)
+        set value(v)
         {
             value = v
             for(const element of elements){
