@@ -123,7 +123,7 @@ function cleanUp(str)
 function buildPattern(pattern)
 {
     var groups = []
-    var regex = new RegExp("^"+pattern.replace(/{.*?}/g,group=>{
+    var regex = new RegExp("^"+cleanUp(pattern).replace(/{.*?}/g,group=>{
         groups.push(group.replace(/({|})/g,""))
         return "(.*?)"
     })+"$")
