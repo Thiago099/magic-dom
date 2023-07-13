@@ -28,6 +28,9 @@ const JSXNode = (name, props, ...children) => {
 
 
     const handlers = {
+        parent: container =>{
+            el.$parent(container)
+        },
         style: style=>{
             el.$style(style)
         },
