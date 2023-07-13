@@ -12,6 +12,7 @@ class builder
         const current = UseCSS(css, this)
         current.Add()
         old.element = current
+        return this
     }
     
     $update()
@@ -121,6 +122,7 @@ class builder
             this.classList.add(newClass)
         }
         old.classesSplit = newClassesSplit
+        return this
     }
 
     $getComputedStyle(name)
@@ -144,6 +146,7 @@ class builder
                 element.value = this.value
             })
         }
+        return this
     }
 
     $child(element, old)
@@ -174,6 +177,8 @@ class builder
         {
             currentParameter.$subscribe(this)
         }
+
+        return this
     }
 }
 

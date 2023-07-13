@@ -6,6 +6,7 @@ class builder
     $css(css)
     {
         UseCSS(css, this).Add();
+        return this
     }
 
     $child(element)
@@ -74,6 +75,7 @@ class builder
         {
             this.classList.add(newClass)
         }
+        return this
     }
 
     $style(new_style)
