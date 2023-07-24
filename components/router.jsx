@@ -107,7 +107,7 @@ function Router(routes, main=null)
     {
         path = cleanUp(path)
         if(currentPath === path) return
-        window.history.pushState({}, "", window.location.origin + "/" + path);
+        window.history.pushState({}, "", window.location.origin + ("/" + path).replace(/\/+/g,"/"));
         currentPath = path
         updatePageContainer()
     }
