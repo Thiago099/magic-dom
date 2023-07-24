@@ -81,6 +81,7 @@ function Router(routes, main=null)
         }
         if(routes["404"] !== undefined) 
         {
+            currentPath = "404"
             routes["404"]()
             .then(module => {
                 container.innerHTML = ""
@@ -106,8 +107,6 @@ function Router(routes, main=null)
     {
         path = cleanUp(path)
         if(currentPath === path) return
-        if(path === "") path = "/"
-
         window.history.pushState({}, "", window.location.origin + "/" + path);
         currentPath = path
         updatePageContainer()
