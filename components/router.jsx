@@ -38,7 +38,7 @@ export { Router }
 function Router(routes, main=null)
 {
     const patterns = Object.keys(routes).map(buildPattern)
-    const container = <div></div>
+    const container = <div style="width:100%"></div>
 
     let currentPath  = cleanUp(window.location.pathname);
     if(!routes["/"] && currentPath == "")
