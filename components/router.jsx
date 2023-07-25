@@ -67,7 +67,6 @@ function Router(routes, main=null)
             const result = match(currentPath)
             if(result)
             {
-                console.log(route)
                 routes[route]()
                 .then(module => {
                     container.innerHTML = ""

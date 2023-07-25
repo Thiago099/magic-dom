@@ -9,7 +9,8 @@ function state(value){
         get(target, key) {
             if (key === '$on') return on;
             if (key === '$subscribe') return subscribe;
-            if (key === 'ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62') return true;
+            if (key === '$key') return "ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62";
+            if (key === 'value') return target;
             if (
                     typeof target[key] === 'object' &&
                     target[key] !== null
