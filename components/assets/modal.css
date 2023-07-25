@@ -17,18 +17,18 @@
     width: 100vw;
     height: 100vh;
     background-color: rgba(0,0,0,0.5);
-    z-index: 10000;
+    z-index: 1000;
 }
 .modal-prompt{
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: white;
+
     border-radius: 5px;
     padding: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
-    z-index: 10001;
+    z-index: 1;
     /* opacity: 0.3;
     transition: opacity 0.2s ease-in-out; */
 }

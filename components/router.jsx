@@ -37,7 +37,7 @@ export { Router }
 
 function Router(routes, main=null)
 {
-    const patterns = Object.keys(routes).map(buildPattern)
+    const patterns = Object.keys(routes).map(buildPattern).sort((a,b)=> b.length - a.length)
     const container = <div style="width:100%"></div>
 
     let currentPath  = cleanUp(window.location.pathname);
@@ -67,14 +67,14 @@ function Router(routes, main=null)
             const result = match(currentPath)
             if(result)
             {
-            
+                console.log(route)
                 routes[route]()
                 .then(module => {
                     container.innerHTML = ""
                     module.default({navigate,...result}).$parent(container)
                 })
                 .catch(() => {
-                    container.innerHTML = ""
+                    container.innerHTML = "500"
                 })
                 return
             }
@@ -88,12 +88,12 @@ function Router(routes, main=null)
                 module.default().$parent(container)
             })
             .catch(() => {
-                container.innerHTML = ""
+                container.innerHTML = "500"
             })
         }
         else
         {
-            container.innerHTML = ""
+            container.innerHTML = "404"
         }
 
     }
@@ -122,10 +122,11 @@ function cleanUp(str)
 function buildPattern(pattern)
 {
     var groups = []
-    var regex = new RegExp("^"+cleanUp(pattern).replace(/{.*?}/g,group=>{
+    const patternString = "^"+cleanUp(pattern).replace(/{.*?}/g,group=>{
         groups.push(group.replace(/({|})/g,""))
         return "(.*?)"
-    })+"$")
+    })+"$"
+    var regex = new RegExp(patternString)
     function match(data)
     {
         var match = data.match(regex)
@@ -144,5 +145,5 @@ function buildPattern(pattern)
         return false
     }
 
-    return {match,route:pattern}
+    return {match,route:pattern, get length(){return patternString.length}}
 }
