@@ -9,14 +9,23 @@ class builder
         return this
     }
 
-    $child(element)
+    $child(el)
     {
-        if(!(element instanceof HTMLElement))
+        if(Array.isArray(el))
         {
-            element = document.createTextNode(element)
+            var pel = el
+            el = element("div")
+            for(const item of pel)
+            {
+                el.$child(item)
+            }
+        }
+        if(!(el instanceof HTMLElement))
+        {
+            el = document.createTextNode(el)
         }
 
-        this.appendChild(element)
+        this.appendChild(el)
 
         return this
     }

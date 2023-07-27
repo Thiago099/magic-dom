@@ -18,6 +18,16 @@ function state(value){
                 {
                     return new Proxy(target[key], validator)
                 }
+            if(typeof(target[key]) === "function")
+            {
+                return (...params) => {
+                    var result = target[key](...params)
+                    for(const element of elements){
+                        element.$update();
+                    }
+                    return result
+                }
+            }
                 return {
                     get $key() {
                         return 'ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62';

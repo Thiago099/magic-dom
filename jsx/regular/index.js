@@ -50,6 +50,10 @@ const JSXNode = (name, props, ...children) => {
         model: css =>{
             el.$model(css)
         },
+
+        "grid-area": data =>{
+            el.$style(`grid-area:${data}`)
+        }
     }
 
     const extraHandles = {

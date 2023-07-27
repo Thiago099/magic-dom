@@ -1,7 +1,6 @@
 .close-button{
-    position: sticky;
-    float:right;
-    margin:-5px -6px;
+    position: fixed;
+    right: 10px;
     cursor: pointer;
     padding: 2px 8px;
     border-radius: 3px;

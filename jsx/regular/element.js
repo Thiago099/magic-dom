@@ -149,23 +149,33 @@ class builder
         return this
     }
 
-    $child(element, old)
+    $child(el, old)
     {
-        if(!(element instanceof HTMLElement))
+        if(Array.isArray(el))
         {
-            element = document.createTextNode(element)
+            var pel = el
+            el = element("div")
+            for(const item of pel)
+            {
+                el.$child(item)
+            }
+        }
+
+        if(!(el instanceof HTMLElement))
+        {
+            el = document.createTextNode(el)
         }
 
         if(old.element)
         {
-            old.element.replaceWith(element)
+            old.element.replaceWith(el)
         }
         else
         {
-            this.appendChild(element)
+            this.appendChild(el)
         }
 
-        old.element = element;
+        old.element = el;
 
         return this
     }
