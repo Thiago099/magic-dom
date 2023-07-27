@@ -153,26 +153,37 @@ class builder
     {
         if(Array.isArray(el))
         {
-            var pel = el
-            el = element("div")
-            for(const item of pel)
+            if(old.element)
             {
-                el.$child(item)
+                for(const item of el)
+                {
+                    this.insertBefore(item, old.element[0])
+                }
+                for(const item of old.element)
+                {
+                    item.remove()
+                }
             }
-        }
-
-        if(!(el instanceof HTMLElement))
-        {
-            el = document.createTextNode(el)
-        }
-
-        if(old.element)
-        {
-            old.element.replaceWith(el)
+            for(const item of el)
+            {
+                this.$child(item)
+            }
         }
         else
         {
-            this.appendChild(el)
+            if(!(el instanceof HTMLElement))
+            {
+                el = document.createTextNode(el)
+            }
+
+            if(old.element)
+            {
+                old.element.replaceWith(el)
+            }
+            else
+            {
+                this.appendChild(el)
+            }
         }
 
         old.element = el;
