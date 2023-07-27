@@ -13,19 +13,20 @@ class builder
     {
         if(Array.isArray(el))
         {
-            var pel = el
-            el = element("div")
-            for(const item of pel)
+            for(const item of el)
             {
-                el.$child(item)
+                this.$child(item)
             }
         }
-        if(!(el instanceof HTMLElement))
+        else
         {
-            el = document.createTextNode(el)
+            if(!(el instanceof HTMLElement))
+            {
+                el = document.createTextNode(el)
+            }
+            this.appendChild(el)
         }
 
-        this.appendChild(el)
 
         return this
     }
