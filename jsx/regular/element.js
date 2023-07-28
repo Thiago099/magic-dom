@@ -3,16 +3,22 @@ export { element }
 import { dig } from "./utils"
 class builder
 {
-    $css(css, old)
+    $css(css)
     {
-        if(old.element)
+        let old;
+        const self = this
+        function up()
+        {
+            const current = UseCSS(css, self)
+            current.Add()
+            old = current
+            return self
+        }
+        function down()
         {
             old.element.Remove()
         }
-        const current = UseCSS(css, this)
-        current.Add()
-        old.element = current
-        return this
+        return {up, down}
     }
     
     $update()
@@ -56,73 +62,87 @@ class builder
         return this
     }
 
-    $style(new_style,old)
+    $style(new_style)
     {
-        if(old.style)
+        let old;
+        const self = this
+        function down()
+        {
+            if(typeof old === "object")
+            {
+                for(const key in old)
+                {
+                    self.style.setProperty(key, null);
+                }
+            }
+            else
+            {
+                const styles = old.split(';').filter((style) => style.length > 0);
+                self.style = {}
+                for(const style of styles) {
+                    const [key, value] = style.split(':');
+                    self.style.setProperty(key,null);
+                }
+            }
+        }
+        function up()
         {
             if(typeof new_style === "object")
             {
                 for(const key in new_style)
                 {
-                    this.style.setProperty(key, null);
+                    self.style.setProperty(key, new_style[key]);
                 }
             }
             else
             {
                 const styles = new_style.split(';').filter((style) => style.length > 0);
-                this.style = {}
                 for(const style of styles) {
                     const [key, value] = style.split(':');
-                    this.style.setProperty(key,null);
+                    self.style.setProperty(key,value);
+                }
+            }
+            old = new_style
+            return self
+        }
+
+        return { up, down }
+    }
+
+    $class(newClasses)
+    {
+        let old;
+        const self = this
+        function down()
+        {
+            if(old)
+            {
+                for(const oldClass of old)
+                {
+                    self.classList.remove(oldClass)
                 }
             }
         }
-
-        if(typeof new_style === "object")
+        function up()
         {
-            for(const key in new_style)
+            let newClassesSplit
+            if(typeof newClasses == "object")
             {
-                this.style.setProperty(key, new_style[key]);
+                newClassesSplit = Object.keys(newClasses).filter(x=>newClasses[x])
             }
-        }
-        else
-        {
-            const styles = new_style.split(';').filter((style) => style.length > 0);
-            this.style = {}
-            for(const style of styles) {
-                const [key, value] = style.split(':');
-                this.style.setProperty(key,value);
-            }
-        }
-        old.style = new_style
-
-        return this
-    }
-
-    $class(newClasses, old)
-    {
-        let newClassesSplit
-        if(typeof newClasses == "object")
-        {
-            newClassesSplit = Object.keys(newClasses).filter(x=>newClasses[x])
-        }
-        else
-        {
-            newClassesSplit = newClasses.split(" ")
-        }
-        if(old.classesSplit)
-        {
-            for(const oldClass of old.classesSplit)
+            else
             {
-                this.classList.remove(oldClass)
+                newClassesSplit = newClasses.split(" ")
             }
+            for(const newClass of newClassesSplit)
+            {
+                self.classList.add(newClass)
+            }
+            old = newClassesSplit
+            return self
         }
-        for(const newClass of newClassesSplit)
-        {
-            this.classList.add(newClass)
-        }
-        old.classesSplit = newClassesSplit
-        return this
+        return { up, down }
+        
     }
 
     $getComputedStyle(name)
@@ -149,46 +169,55 @@ class builder
         return this
     }
 
-    $child(el, old)
+    $child(el)
     {
-        if(Array.isArray(el))
+        const self = this
+        let old;
+        function down()
         {
-            if(old.element)
+            return old
+        }
+        function up(last)
+        {
+            if(Array.isArray(el))
             {
+                if(last)
+                {
+                    for(const item of el)
+                    {
+                        self.insertBefore(item, last[0])
+                    }
+                    for(const item of last)
+                    {
+                        item.remove()
+                    }
+                }
                 for(const item of el)
                 {
-                    this.insertBefore(item, old.element[0])
+                    self.$child(item)
                 }
-                for(const item of old.element)
-                {
-                    item.remove()
-                }
-            }
-            for(const item of el)
-            {
-                this.$child(item)
-            }
-        }
-        else
-        {
-            if(!(el instanceof HTMLElement))
-            {
-                el = document.createTextNode(el)
-            }
-
-            if(old.element)
-            {
-                old.element.replaceWith(el)
             }
             else
             {
-                this.appendChild(el)
+                if(!(el instanceof HTMLElement))
+                {
+                    el = document.createTextNode(el)
+                }
+
+                if(last)
+                {
+                    last.replaceWith(el)
+                }
+                else
+                {
+                    self.appendChild(el)
+                }
             }
+            old = el
+            return self
         }
 
-        old.element = el;
-
-        return this
+        return {up, down}
     }
 
     $state(parameter)
@@ -232,7 +261,7 @@ function element(name)
         else
         {
             result[item] = (...params) => {
-                params.push({})
+                let old;
                 function event()
                 {
                     var parameters = []
@@ -248,7 +277,10 @@ function element(name)
                             parameters.push(currentParameter)
                         }
                     }
-                    return builderInstance[item].apply(result, parameters)
+                    const current = builderInstance[item].apply(result, parameters)
+                    const res = current.up(old.down())
+                    old = current
+                    return res
                 }
                 var parameters = []
                 for(const parameter of params)
@@ -273,7 +305,8 @@ function element(name)
                     }
                 }
                 result.__events.push(event)
-                return builderInstance[item].apply(result, parameters)
+                old = builderInstance[item].apply(result, parameters)
+                return old.up()
             }
         }
 
