@@ -156,17 +156,24 @@ class builder
         return this
     }
 
-    $model(element, old)
+    $model(element)
     {
-        this.value = element.value
-        if(!old.added)
+        const self = this
+        function up(last)
         {
-            old.added = true
-            this.$on("input",()=>{
-                element.value = this.value
-            })
+            self.value = element.value
+            if(!last)
+            {
+                self.$on("input",()=>{
+                    element.value = self.value
+                })
+            }
         }
-        return this
+        function down()
+        {
+            return true;
+        }
+        return {up, down}
     }
 
     $child(el)
