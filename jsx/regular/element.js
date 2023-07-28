@@ -132,7 +132,7 @@ class builder
             }
             else
             {
-                newClassesSplit = newClasses.split(" ")
+                newClassesSplit = newClasses.split(" ").filter(x => x != "")
             }
             for(const newClass of newClassesSplit)
             {
