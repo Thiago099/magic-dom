@@ -33,7 +33,7 @@ export { Router }
 
 
 
-
+const asyncConstructor =  (async () => {}).constructor
 
 function Router(routes, main=null)
 {
@@ -69,12 +69,24 @@ function Router(routes, main=null)
             {
                 routes[route]()
                 .then(module => {
-                    container.innerHTML = ""
-                    module.default({navigate,...result}).$parent(container)
+                    
+                    if(module.default instanceof asyncConstructor)
+                    {
+                        module.default({navigate, navigateBack,...result})
+                        .then(x=>{
+                            container.innerHTML = ""
+                            x.$parent(container)
+                        })
+                    }
+                    else
+                    {
+                        container.innerHTML = ""
+                        module.default({navigate, navigateBack,...result}).$parent(container)
+                    }
                 })
-                .catch(() => {
-                    container.innerHTML = "500"
-                })
+                // .catch(() => {
+                //     container.innerHTML = "500"
+                // })
                 return
             }
         }
@@ -86,9 +98,9 @@ function Router(routes, main=null)
                 container.innerHTML = ""
                 module.default().$parent(container)
             })
-            .catch(() => {
-                container.innerHTML = "500"
-            })
+            // .catch(() => {
+            //     container.innerHTML = "500"
+            // })
         }
         else
         {
@@ -109,7 +121,12 @@ function Router(routes, main=null)
         currentPath = path
         updatePageContainer()
     }
-    return {container, navigate, getPath}
+    function navigateBack()
+    {
+        window.history.back()
+        updatePageContainer()
+    }
+    return {container, navigate, getPath, navigateBack}
 }
 
 function cleanUp(str)
