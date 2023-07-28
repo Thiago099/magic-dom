@@ -188,7 +188,7 @@ class builder
         {
             let sample = last
 
-            if(Array.isArray(sample) && sample.length > 0)
+            if(Array.isArray(sample))
             {
                 sample = sample[0]
             }
@@ -209,6 +209,20 @@ class builder
                         self.$child(item)
                     }
                 }
+                if(last)
+                {
+                    if(Array.isArray(last))
+                    {
+                        for(const item of last)
+                        {
+                            item.remove()
+                        }
+                    }
+                    else
+                    {
+                        last.remove()
+                    }
+                }
             }
             else
             {
@@ -226,21 +240,8 @@ class builder
                     self.appendChild(el)
                 }
             }
+
             
-            if(last)
-            {
-                if(Array.isArray(last))
-                {
-                    for(const item of last)
-                    {
-                        item.remove()
-                    }
-                }
-                else
-                {
-                    last.remove()
-                }
-            }
 
             old = el
             return self
