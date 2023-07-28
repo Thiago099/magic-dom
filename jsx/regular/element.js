@@ -186,22 +186,28 @@ class builder
         }
         function up(last)
         {
+            let sample = last
+
+            if(Array.isArray(sample) && sample.length > 0)
+            {
+                sample = sample[0]
+            }
+
             if(Array.isArray(el))
             {
-                if(last)
+                if(sample)
                 {
                     for(const item of el)
                     {
-                        self.insertBefore(item, last[0])
-                    }
-                    for(const item of last)
-                    {
-                        item.remove()
+                        self.insertBefore(item, sample)
                     }
                 }
-                for(const item of el)
+                else
                 {
-                    self.$child(item)
+                    for(const item of el)
+                    {
+                        self.$child(item)
+                    }
                 }
             }
             else
@@ -211,15 +217,31 @@ class builder
                     el = document.createTextNode(el)
                 }
 
-                if(last)
+                if(sample)
                 {
-                    last.replaceWith(el)
+                    sample.replaceWith(el)
                 }
                 else
                 {
                     self.appendChild(el)
                 }
             }
+            
+            if(last)
+            {
+                if(Array.isArray(last))
+                {
+                    for(const item of last)
+                    {
+                        item.remove()
+                    }
+                }
+                else
+                {
+                    last.remove()
+                }
+            }
+
             old = el
             return self
         }
