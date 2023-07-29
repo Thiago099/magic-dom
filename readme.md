@@ -78,7 +78,7 @@ add a class to the element
 div.$class("class1 class2")
 ```
 
-add a css to the element and its children
+you can add style using css syntax, however it will only update when the element updates
 ```jsx
 div.$css(".class{color:red}")
 ```
