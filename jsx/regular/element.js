@@ -159,6 +159,13 @@ class builder
 
             if(Array.isArray(el))
             {
+                el = el.map(x => {
+                    if(!(x instanceof HTMLElement))
+                    {
+                        return document.createTextNode(x)
+                    }
+                    return x
+                })
                 if(sample)
                 {
                     for(const item of el)
@@ -170,9 +177,10 @@ class builder
                 {
                     for(const item of el)
                     {
-                        this.$child(item)
+                        this.appendChild(item)
                     }
                 }
+
                 if(old)
                 {
                     if(Array.isArray(old))
