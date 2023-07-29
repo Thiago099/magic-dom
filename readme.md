@@ -78,7 +78,7 @@ add a class to the element
 div.$class("class1 class2")
 ```
 
-add a css to the element and its children
+you can add style using css syntax, however it will only update when the element updates
 ```jsx
 div.$css(".class{color:red}")
 ```
@@ -119,15 +119,15 @@ div.$update()
 
 State will automatically update when it is changed
 ```jsx
-var myState = state("hello");
-var myDiv = <div>{myState}</div>
-myState.$value = "world"
+var name = state("");
+var myDiv = <div>{"hello " + name}</div>
+name.$value = "thiago"
 ```
 
 you can pass a object and or array trough the state
 ```jsx
 var myState = state({myProperty:"hello"});
-var myDiv = <div>{myState.myProperty}</div>
+var myDiv = <div>{myState.myProperty.$value}</div>
 myState.myProperty.$value = "world"
 ```
 
