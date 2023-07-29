@@ -10,7 +10,7 @@ function state(value){
             if (key === '$on') return on;
             if (key === '$subscribe') return subscribe;
             if (key === '$key') return "ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62";
-            if (key === 'value') return target;
+            if (key === '$value') return target;
             if(typeof(target[key]) === "function")
             {
                 return (...params) => {
