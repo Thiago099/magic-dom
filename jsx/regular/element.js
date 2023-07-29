@@ -63,9 +63,12 @@ class builder
     {
         return (old) => {
 
-            for(const key of old)
+            if(old)
             {
-                this.style.setProperty(key, null);
+                for(const key of old)
+                {
+                    this.style.setProperty(key, null);
+                }
             }
 
             const applied = []
