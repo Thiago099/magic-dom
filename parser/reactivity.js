@@ -1,5 +1,5 @@
 
-import { findPattern, matchPattern } from "../lib/pattern.js";
+import { findPattern, matchPattern, findMutiPatternShallow } from "../lib/pattern.js";
 
 export { addFunctionReactivity,addJSXReactivity }
 
@@ -28,14 +28,14 @@ export function isOnBlacklist(key)
 }
 
 
-export const jsx_pattern = {
+const jsx_pattern = {
     "type": "CallExpression",
     "callee": {
         "name": "JSXNode"
     }
 }
 
-export const function_pattern = {
+const function_pattern = {
     "type": "CallExpression",
     "callee": {
         "type":"MemberExpression",
@@ -45,6 +45,37 @@ export const function_pattern = {
         }
     }
 }
+
+
+const reactivityCandidates = [
+    {
+        pattern:{
+            "type": "MemberExpression",
+        },
+        callback: (item) => {
+
+            while(item.type == "MemberExpression")
+            {
+                item = item.object
+            }
+
+            if(item.type == "Identifier")
+            {
+                return item
+            }
+
+            return null
+        }
+    },
+    {
+        pattern:{
+            "type": "Identifier",
+        },
+        callback:(item) => item
+    }
+]
+
+
 function addFunctionReactivity(parsed)
 {
     const outside_calls = findPattern(parsed,function_pattern);
@@ -104,7 +135,7 @@ function addReactivityIfRelevant(input)
   return addArrowFunction(input)
 }
 
-function addArrowFunction(input)
+function arrowFunction(input)
 {
     return {
         "type": "ArrowFunctionExpression",      
@@ -113,6 +144,62 @@ function addArrowFunction(input)
         "async": false,
         "params": [],
         "body": input
+    }
+}
+
+function addArrowFunction(input)
+{
+    return {
+        "type": "ObjectExpression",
+        "properties": [
+            {
+                "type": "Property",
+                "method": false,
+                "shorthand": false,
+                "computed": false,
+                "key": {
+                    "type": "Identifier",
+                    "name": "action"
+                },
+                "value": arrowFunction(input),
+                "kind": "init"
+            },
+            {
+                "type": "Property",
+                "method": false,
+                "shorthand": false,
+                "computed": false,
+                "key": {
+                    "type": "Identifier",
+                    "start": 27,
+                    "end": 36,
+                    "name": "properties"
+                },
+                "value": {
+                    "type": "ArrayExpression",
+                    "start": 37,
+                    "end": 39,
+                    "elements": findMutiPatternShallow(input,reactivityCandidates)
+                },
+                "kind": "init"
+            },
+            {
+                "type": "Property",
+                "method": false,
+                "shorthand": false,
+                "computed": false,
+                "key": {
+                    "type": "Identifier",
+                    "name": "$key"
+                },
+                "value": {
+                    "type": "Literal",
+                    "value": "471ddd10-6cc3-429b-ba9a-5f4250686d4a",
+                    "raw": "\"471ddd10-6cc3-429b-ba9a-5f4250686d4a\""
+                },
+                "kind": "init"
+            }
+        ]
     }
 }
 

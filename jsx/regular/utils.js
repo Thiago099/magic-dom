@@ -26,9 +26,11 @@ function digShallow(element)
 }
 function dig(element)
 {
-    while(typeof element == "function")
+    const properties = []
+    while(typeof element == "object" && element.$key == "471ddd10-6cc3-429b-ba9a-5f4250686d4a")
     {
-        element = element()
+        properties.push(...element.properties)
+        element = element.action()
     }
-    return element
+    return {element, properties}
 }

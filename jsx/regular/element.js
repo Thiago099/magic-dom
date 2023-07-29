@@ -139,11 +139,11 @@ class builder
     $model(element)
     {
         return (old) => {
-            this.value = element.value
+            this.value = element.$value
             if(!old)
             {
                 this.$on("input",()=>{
-                    element.value = this.value
+                    element.$value = this.value
                 })
             }
             return true
@@ -301,14 +301,14 @@ function getFunctionsFromClass(className) {
     var parameters = []
     for(const parameter of params)
     {
-        var currentParameter = dig(parameter)
-        if(currentParameter?.$key == "ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62" && item != "$model")
+        const {element, properties} = dig(parameter)
+        if(element?.$key == "ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62" && item != "$model")
         {
-            parameters.push(currentParameter.value)
+            parameters.push(element.$value)
         }
         else
         {
-            parameters.push(currentParameter)
+            parameters.push(element)
         }
     }
     return parameters
@@ -319,22 +319,28 @@ function getFunctionsFromClass(className) {
     var parameters = []
     for(const parameter of params)
     {
-        var currentParameter = dig(parameter)
-        if(currentParameter?.$key == "ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62" )
+        const {element, properties} = dig(parameter)
+        for(const item of properties)
         {
-            currentParameter.$subscribe(result)
+            if(item?.$key == "ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62" )
+            {
+                item.$subscribe(result)
+            }
+        }
+        if(element?.$key == "ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62" )
+        {
             if(item == "$model")
             {
-                parameters.push(currentParameter)
+                parameters.push(element)
             }
             else
             {
-                parameters.push(currentParameter.value)
+                parameters.push(element.$value)
             }
         }
         else
         {
-            parameters.push(currentParameter)
+            parameters.push(element)
         }
     }
     return parameters

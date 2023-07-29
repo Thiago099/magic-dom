@@ -11,13 +11,6 @@ function state(value){
             if (key === '$subscribe') return subscribe;
             if (key === '$key') return "ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62";
             if (key === 'value') return target;
-            if (
-                    typeof target[key] === 'object' &&
-                    target[key] !== null
-                ) 
-                {
-                    return new Proxy(target[key], validator)
-                }
             if(typeof(target[key]) === "function")
             {
                 return (...params) => {
@@ -28,25 +21,30 @@ function state(value){
                     return result
                 }
             }
-                return {
-                    get $key() {
-                        return 'ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62';
-                    },
-                    get value(){
-                        return target[key]
-                    },
-                    get $subscribe()
-                    {
-                        return subscribe
-                    },
-                    set value(v)
-                    {
-                        target[key] = v
-                        for(const element of elements){
-                            element.$update();
-                        }
+            if (typeof target[key] === 'object' && target[key] !== null) 
+            {
+                return new Proxy(target[key], validator)
+            }
+
+            return {
+                get $key() {
+                    return 'ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62';
+                },
+                get $value(){
+                    return target[key]
+                },
+                get $subscribe()
+                {
+                    return subscribe
+                },
+                set $value(v)
+                {
+                    target[key] = v
+                    for(const element of elements){
+                        element.$update();
                     }
-                };
+                }
+            };
         },
         set (target, key, _value) {
             target[key] = _value;
@@ -66,7 +64,7 @@ function state(value){
         get $key() {
             return 'ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62';
         },
-        get value(){
+        get $value(){
             return value
         },
         get $subscribe()
@@ -77,7 +75,7 @@ function state(value){
         {
             return on
         },
-        set value(v)
+        set $value(v)
         {
             value = v
             for(const element of elements){
