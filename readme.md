@@ -143,16 +143,3 @@ myInput.$model(myState)
 ```
 
 
-non static parameters will be passed as a function, that can either be used in
-the elements, or read by calling it
-
-```jsx
-function Component({text},child1,child2)
-{
-    console.log(text())
-    return <div>{text} {child1} {child2}</div>;
-}
-var text = "hi"
-const instance = <Component text={text}>content</Component>
-```
-
