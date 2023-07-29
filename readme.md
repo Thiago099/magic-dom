@@ -121,29 +121,14 @@ State will automatically update when it is changed
 ```jsx
 var myState = state("hello");
 var myDiv = <div>{myState}</div>
-myState.value = "world"
-```
-
-when calculating something with the state, the library will not be able
-to get the state from the operation, which can be mitigated trough the subscribe
-```jsx
-var myState = state("hello");
-var myDiv = <div state={myState}>{myState.value + " world"}</div>
-myState.value = "hi"
-```
-or
-```jsx
-var myState = state("hello");
-var myDiv = <div>{myState.value + " world"}</div>
-myDiv.$state(myState)
-myState.value = "hi"
+myState.$value = "world"
 ```
 
 you can pass a object and or array trough the state
 ```jsx
 var myState = state({myProperty:"hello"});
 var myDiv = <div>{myState.myProperty}</div>
-myState.myProperty.value = "world"
+myState.myProperty.$value = "world"
 ```
 
 You can use the model keyword to sync a state with a input value

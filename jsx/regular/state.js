@@ -16,7 +16,7 @@ function state(value){
                 return (...params) => {
                     var result = target[key](...params)
                     for(const element of elements){
-                        element.$update();
+                        element.__update();
                     }
                     return result
                 }
@@ -41,7 +41,7 @@ function state(value){
                 {
                     target[key] = v
                     for(const element of elements){
-                        element.$update();
+                        element.__update();
                     }
                 }
             };
@@ -49,7 +49,7 @@ function state(value){
         set (target, key, _value) {
             target[key] = _value;
             for(const element of elements){
-                element.$update();
+                element.__update();
             }
           return true
         }
@@ -79,14 +79,14 @@ function state(value){
         {
             value = v
             for(const element of elements){
-                element.$update();
+                element.__update();
             }
         }
     }
 
     function on(callback)
     {
-        elements.add({$update:callback})
+        elements.add({__update:callback})
     }
 
     function subscribe(callback){

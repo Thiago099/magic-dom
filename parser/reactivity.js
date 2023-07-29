@@ -71,7 +71,7 @@ const reactivityCandidates = [
         pattern:{
             "type": "Identifier",
         },
-        callback:(item) => item
+        callback: (item) => item
     }
 ]
 

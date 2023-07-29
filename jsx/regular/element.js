@@ -42,6 +42,14 @@ class builder
         return this
     }
 
+    __update()
+    {
+        for(const item of this.__events)
+        {
+            item()
+        }
+    }
+
     $on(event, callback)
     {
         function remove()
@@ -237,7 +245,8 @@ var blacklist = [
     "$on",
     "$update",
     "$parent",
-    "$state"
+    "$state",
+    "__update"
 ]
 
 
