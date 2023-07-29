@@ -120,7 +120,7 @@ div.$update()
 State will automatically update when it is changed
 ```jsx
 var myState = state("hello");
-var myDiv = <div>{myState}</div>
+var myDiv = <div>{+myState+" world"}</div>
 myState.$value = "world"
 ```
 
