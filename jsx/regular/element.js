@@ -191,21 +191,6 @@ class builder
                         this.appendChild(item)
                     }
                 }
-
-                if(old)
-                {
-                    if(Array.isArray(old))
-                    {
-                        for(const item of old)
-                        {
-                            item.remove()
-                        }
-                    }
-                    else
-                    {
-                        old.remove()
-                    }
-                }
             }
             else
             {
@@ -223,6 +208,22 @@ class builder
                     this.appendChild(el)
                 }
             }
+
+            if(old)
+            {
+                if(Array.isArray(old))
+                {
+                    for(const item of old)
+                    {
+                        item.remove()
+                    }
+                }
+                else
+                {
+                    old.remove()
+                }
+            }
+            
             return el
         }
     }

@@ -147,6 +147,43 @@ function arrowFunction(input)
     }
 }
 
+function safe(input)
+{
+    return {
+        "type": "ConditionalExpression",
+        "start": 0,
+        "end": 40,
+        "test": {
+            "type": "BinaryExpression",
+            "start": 0,
+            "end": 24,
+            "left": {
+                "type": "UnaryExpression",
+                "start": 0,
+                "end": 9,
+                "operator": "typeof",
+                "prefix": true,
+                "argument": input
+            },
+            "operator": "!=",
+            "right": {
+                "type": "Literal",
+                "start": 13,
+                "end": 24,
+                "value": "undefined",
+                "raw": "\"undefined\""
+            }
+        },
+        "consequent": input,
+        "alternate": {
+            "type": "Identifier",
+            "start": 31,
+            "end": 40,
+            "name": "undefined"
+        }
+    }
+}
+
 function addArrowFunction(input)
 {
     return {
@@ -179,7 +216,7 @@ function addArrowFunction(input)
                     "type": "ArrayExpression",
                     "start": 37,
                     "end": 39,
-                    "elements": findMutiPatternShallow(input,reactivityCandidates)
+                    "elements": distinct(findMutiPatternShallow(input,reactivityCandidates)).map(safe)
                 },
                 "kind": "init"
             },
@@ -201,6 +238,21 @@ function addArrowFunction(input)
             }
         ]
     }
+}
+
+function distinct(array)
+{
+    const result = []
+    const names = new Set()
+    for(const item of array)
+    {
+        if(!names.has(item.name))
+        {
+            names.add(item.name)
+            result.push(item)
+        }
+    }
+    return result
 }
 
 function isStatic(input)
