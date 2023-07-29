@@ -22,6 +22,7 @@ npm create vite
 chose vanilla
 cd to your project folder
 npm install
+npm install magic-dom
 ```
 create a vite.config.js with the following code:
 
