@@ -46,11 +46,9 @@ const JSXNode = (name, props, ...children) => {
         state: (value) =>{
             el.$state(value)
         },
-
         model: css =>{
             el.$model(css)
         },
-
         "grid-area": data =>{
             el.$style(`grid-area:${data}`)
         }

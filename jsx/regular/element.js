@@ -5,20 +5,19 @@ class builder
 {
     $css(css)
     {
-        let old;
-        const self = this
-        function up()
+        return (old) =>
         {
-            const current = UseCSS(css, self)
+            if(old)
+            {
+                old.Remove()
+            }
+
+            const current = UseCSS(css, this)
+
             current.Add()
-            old = current
-            return self
+            
+            return current
         }
-        function down()
-        {
-            old.element.Remove()
-        }
-        return {up, down}
     }
     
     $update()
@@ -45,11 +44,9 @@ class builder
 
     $on(event, callback)
     {
-        const self = this
-
         function remove()
         {
-            self.removeEventListener(event,capture)
+            this.removeEventListener(event,capture)
         }
 
         function capture(e)
@@ -64,34 +61,21 @@ class builder
 
     $style(new_style)
     {
-        let old;
-        const self = this
-        function down()
-        {
-            if(typeof old === "object")
+        return (old) => {
+
+            for(const key of old)
             {
-                for(const key in old)
-                {
-                    self.style.setProperty(key, null);
-                }
+                this.style.setProperty(key, null);
             }
-            else
-            {
-                const styles = old.split(';').filter((style) => style.length > 0);
-                self.style = {}
-                for(const style of styles) {
-                    const [key, value] = style.split(':');
-                    self.style.setProperty(key,null);
-                }
-            }
-        }
-        function up()
-        {
+
+            const applied = []
+
             if(typeof new_style === "object")
             {
                 for(const key in new_style)
                 {
-                    self.style.setProperty(key, new_style[key]);
+                    applied.push(key)
+                    this.style.setProperty(key, new_style[key]);
                 }
             }
             else
@@ -99,32 +83,27 @@ class builder
                 const styles = new_style.split(';').filter((style) => style.length > 0);
                 for(const style of styles) {
                     const [key, value] = style.split(':');
-                    self.style.setProperty(key,value);
+                    applied.push(key)
+                    this.style.setProperty(key,value);
                 }
             }
-            old = new_style
-            return self
-        }
 
-        return { up, down }
+            return applied
+        }
     }
 
     $class(newClasses)
     {
-        let old;
-        const self = this
-        function down()
-        {
+        return (old) => {
+
             if(old)
             {
                 for(const oldClass of old)
                 {
-                    self.classList.remove(oldClass)
+                    this.classList.remove(oldClass)
                 }
             }
-        }
-        function up()
-        {
+
             let newClassesSplit
             if(typeof newClasses == "object")
             {
@@ -136,12 +115,10 @@ class builder
             }
             for(const newClass of newClassesSplit)
             {
-                self.classList.add(newClass)
+                this.classList.add(newClass)
             }
-            old = newClassesSplit
-            return self
+            return newClassesSplit
         }
-        return { up, down }
         
     }
 
@@ -158,35 +135,22 @@ class builder
 
     $model(element)
     {
-        const self = this
-        function up(last)
-        {
-            self.value = element.value
-            if(!last)
+        return (old) => {
+            this.value = element.value
+            if(!old)
             {
-                self.$on("input",()=>{
-                    element.value = self.value
+                this.$on("input",()=>{
+                    element.value = this.value
                 })
             }
+            return true
         }
-        function down()
-        {
-            return true;
-        }
-        return {up, down}
     }
 
     $child(el)
     {
-        const self = this
-        let old;
-        function down()
-        {
-            return old
-        }
-        function up(last)
-        {
-            let sample = last
+        return (old) => {
+            let sample = old
 
             if(Array.isArray(sample))
             {
@@ -199,28 +163,28 @@ class builder
                 {
                     for(const item of el)
                     {
-                        self.insertBefore(item, sample)
+                        this.insertBefore(item, sample)
                     }
                 }
                 else
                 {
                     for(const item of el)
                     {
-                        self.$child(item)
+                        this.$child(item)
                     }
                 }
-                if(last)
+                if(old)
                 {
-                    if(Array.isArray(last))
+                    if(Array.isArray(old))
                     {
-                        for(const item of last)
+                        for(const item of old)
                         {
                             item.remove()
                         }
                     }
                     else
                     {
-                        last.remove()
+                        old.remove()
                     }
                 }
             }
@@ -237,17 +201,11 @@ class builder
                 }
                 else
                 {
-                    self.appendChild(el)
+                    this.appendChild(el)
                 }
             }
-
-            
-
-            old = el
-            return self
+            return el
         }
-
-        return {up, down}
     }
 
     $state(parameter)
@@ -292,51 +250,16 @@ function element(name)
         {
             result[item] = (...params) => {
                 let old;
+
                 function event()
                 {
-                    var parameters = []
-                    for(const parameter of params)
-                    {
-                        var currentParameter = dig(parameter)
-                        if(currentParameter?.$key == "ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62" && item != "$model")
-                        {
-                            parameters.push(currentParameter.value)
-                        }
-                        else
-                        {
-                            parameters.push(currentParameter)
-                        }
-                    }
-                    const current = builderInstance[item].apply(result, parameters)
-                    const res = current.up(old.down())
-                    old = current
-                    return res
+                    old = builderInstance[item].apply(result, getParameters(item, params))(old)
+                    return result
                 }
-                var parameters = []
-                for(const parameter of params)
-                {
-                    var currentParameter = dig(parameter)
-                    if(currentParameter?.$key == "ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62" )
-                    {
-                        currentParameter.$subscribe(result)
-                        if(item == "$model")
-                        {
-                            parameters.push(currentParameter)
-                        }
-                        else
-                        {
-                            parameters.push(currentParameter.value)
-                        }
 
-                    }
-                    else
-                    {
-                        parameters.push(currentParameter)
-                    }
-                }
                 result.__events.push(event)
-                old = builderInstance[item].apply(result, parameters)
-                return old.up()
+                old = builderInstance[item].apply(result, initializeParameters(item, params, result))()
+                return result
             }
         }
 
@@ -362,6 +285,46 @@ function getFunctionsFromClass(className) {
     return functionNames;
 }
 
-  
+  function getParameters(item, params)
+  {
+    var parameters = []
+    for(const parameter of params)
+    {
+        var currentParameter = dig(parameter)
+        if(currentParameter?.$key == "ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62" && item != "$model")
+        {
+            parameters.push(currentParameter.value)
+        }
+        else
+        {
+            parameters.push(currentParameter)
+        }
+    }
+    return parameters
+  }
 
-  
+  function initializeParameters(item, params, result)
+  {
+    var parameters = []
+    for(const parameter of params)
+    {
+        var currentParameter = dig(parameter)
+        if(currentParameter?.$key == "ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62" )
+        {
+            currentParameter.$subscribe(result)
+            if(item == "$model")
+            {
+                parameters.push(currentParameter)
+            }
+            else
+            {
+                parameters.push(currentParameter.value)
+            }
+        }
+        else
+        {
+            parameters.push(currentParameter)
+        }
+    }
+    return parameters
+  }
