@@ -119,15 +119,15 @@ div.$update()
 
 State will automatically update when it is changed
 ```jsx
-var myState = state("hello");
-var myDiv = <div>{+myState+" world"}</div>
-myState.$value = "world"
+var name = state("");
+var myDiv = <div>{"hello " + name}</div>
+name.$value = "thiago"
 ```
 
 you can pass a object and or array trough the state
 ```jsx
 var myState = state({myProperty:"hello"});
-var myDiv = <div>{myState.myProperty}</div>
+var myDiv = <div>{myState.myProperty.$value}</div>
 myState.myProperty.$value = "world"
 ```
 
