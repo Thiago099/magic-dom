@@ -43,9 +43,6 @@ const JSXNode = (name, props, ...children) => {
         ref: (value) => {
             value.$element = el;
         },
-        state: (value) =>{
-            el.$state(value)
-        },
         model: css =>{
             el.$model(css)
         },
