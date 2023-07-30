@@ -100,13 +100,10 @@ const JSXNode = (name, props, ...children) => {
         else
         if(Object.keys(handlers).includes(prop) && props[prop].$key == "471ddd10-6cc3-429b-ba9a-5f4250686d4a")
         {
-            console.log("advanced",prop)
             handlers[prop](props[prop])
         }
         else if(Object.keys(simpleHandles).includes(prop))
         {
-            console.log("simple",prop)
-
             simpleHandles[prop](props[prop])
         }
         else
