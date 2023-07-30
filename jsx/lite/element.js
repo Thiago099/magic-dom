@@ -108,6 +108,14 @@ class builder
         }
         return this
     }
+    
+    $if(condition)
+    {
+        if(!condition)
+        {
+            this.style.display = "none"
+        }
+    }
 }
 
 var builderInstance = new builder()

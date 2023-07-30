@@ -38,6 +38,9 @@ const JSXNode = (name, props, ...children) => {
         ref: (value) => {
             value.$element = el;
         },
+        ref: (value) => {
+            el.$if(value)
+        },
     }
 
     const extraHandles = {

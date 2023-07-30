@@ -219,6 +219,14 @@ class builder
         }
     }
 
+    __if(condition)
+    {
+        if(!condition)
+        {
+            this.style.display = "none"
+        }
+    }
+
     __child(el)
     {
         if(Array.isArray(el))

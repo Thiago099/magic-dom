@@ -120,6 +120,19 @@ var myDiv = <div>{myState.myProperty}</div>
 myState.myProperty = "world"
 ```
 
+you can use the if to hide elements
+
+```jsx
+const condition = state(false)
+var myDiv = <div if={condition.value}>conditional display</div>
+```
+or
+```jsx
+const condition = state(false)
+var myDiv = <div>conditional display</div>
+myDiv.$if(condition.value)
+```
+
 You can use the model keyword to sync a state with a input value
 ```jsx
 const myState = state({myProperty:"myText"})

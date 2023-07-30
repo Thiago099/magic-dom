@@ -67,6 +67,9 @@ const JSXNode = (name, props, ...children) => {
         style: style=>{
             el.__style(style)
         },
+        if: condition =>{
+            el.__if(condition)
+        },
         class: _class => {
             el.__class(_class)
         },
