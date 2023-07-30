@@ -16,33 +16,21 @@ myDiv return a dom element, with the added functionality listed below
 
 ## instalation:
 
-run
 ```
-npm create vite
-chose vanilla
-cd to your project folder
-npm install
-npm install magic-dom
-```
-create a vite.config.js with the following code:
-
-you can either use the lite or the regular version, after that you can create a jsx file in your
-vite project and use this syntax
-
-```js
-import { defineConfig } from "vite"
-import { MagicDomVitePlugin, MagicDomLiteVitePlugin }  from "magic-dom/vite-plugin"
-export default defineConfig({
-    plugins:[
-        MagicDomVitePlugin(),
-    ],
-})
+npm create magic-dom@latest my-project-name
+cd my-project-name
+npm i
 ```
 
-alternatively you can clone this repository where i've already done this for you:
+## dev server
+```
+npm run dev
+```
+
+## build for production
 
 ```
-git clone https://github.com/Thiago099/magic-dom-vite-example your-project-name
+npm run build
 ```
 
 ## Usage
