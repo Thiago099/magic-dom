@@ -19,6 +19,13 @@ class builder
             return current
         }
     }
+
+    __css(css)
+    {
+        const current = UseCSS(css, this)
+        current.Add()
+    }
+    
     
     $update()
     {
@@ -103,6 +110,26 @@ class builder
         }
     }
 
+    __style(new_style)
+    {
+        if(typeof new_style === "object")
+        {
+            for(const key in new_style)
+            {
+                this.style.setProperty(key, new_style[key]);
+            }
+        }
+        else
+        {
+            const styles = new_style.split(';').filter((style) => style.length > 0);
+            for(const style of styles) {
+                const [key, value] = style.split(':');
+                this.style.setProperty(key,value);
+            }
+        }
+
+    }
+
     $class(newClasses)
     {
         return (old) => {
@@ -131,6 +158,25 @@ class builder
             return newClassesSplit
         }
         
+    }
+
+    __class(newClasses)
+    {
+
+        let newClassesSplit
+        if(typeof newClasses == "object")
+        {
+            newClassesSplit = Object.keys(newClasses).filter(x=>newClasses[x])
+        }
+        else
+        {
+            newClassesSplit = newClasses.split(" ").filter(x => x != "")
+        }
+
+        for(const newClass of newClassesSplit)
+        {
+            this.classList.add(newClass)
+        }
     }
 
     $getComputedStyle(name)
@@ -179,7 +225,6 @@ class builder
         {
             el = document.createTextNode(el)
         }
-
         this.appendChild(el)
     }
 
@@ -260,22 +305,19 @@ var blacklist = [
     "$on",
     "$update",
     "$parent",
-    "__update",
-    "__child"
 ]
 
 
 function element(name)
 {
     let result
-
     result = document.createElement(name);
 
     result.__events = []
 
     for(const item of getFunctionsFromClass(builder))
     {
-        if(blacklist.includes(item))
+        if(blacklist.includes(item) || !item.startsWith("$"))
         {
             result[item] = (...params) => {
                 return builderInstance[item].apply(result, params)
@@ -284,6 +326,7 @@ function element(name)
         else
         {
             result[item] = (...params) => {
+
                 let old;
 
                 function event()

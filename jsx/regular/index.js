@@ -60,6 +60,23 @@ const JSXNode = (name, props, ...children) => {
             el.$style(`grid-area:${data}`)
         }
     }
+    const simpleHandles = {
+        // parent: container =>{
+        //     el.$parent(container)
+        // },
+        style: style=>{
+            el.__style(style)
+        },
+        class: _class => {
+            el.__class(_class)
+        },
+        css: css =>{
+            el.__css(css)
+        },
+        "grid-area": data =>{
+            el.__style(`grid-area:${data}`)
+        }
+    }
 
     const extraHandles = {
         "on": (event,callback) =>
@@ -81,9 +98,16 @@ const JSXNode = (name, props, ...children) => {
             }
         }
         else
-        if(Object.keys(handlers).includes(prop))
+        if(Object.keys(handlers).includes(prop) && props[prop].$key == "471ddd10-6cc3-429b-ba9a-5f4250686d4a")
         {
+            console.log("advanced",prop)
             handlers[prop](props[prop])
+        }
+        else if(Object.keys(simpleHandles).includes(prop))
+        {
+            console.log("simple",prop)
+
+            simpleHandles[prop](props[prop])
         }
         else
         {
