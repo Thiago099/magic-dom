@@ -31,6 +31,33 @@ function state(value){
             if (key === '$subscribe') return subscribe;
             if (key === '$key') return "ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62";
 
+            if(key.startsWith("$"))
+            {
+                key = key.substring(1)
+                return {
+                    get $key() {
+                        return 'ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62';
+                    },
+                    get value(){
+                        return target[key]
+                    },
+                    get $subscribe()
+                    {
+                        return subscribe
+                    },
+                    get $on()
+                    {
+                        return on
+                    },
+                    set value(v)
+                    {
+                        target[key] = v
+                        update()
+                    }
+                }
+            }
+
+
             if(target[key] == undefined) return undefined
             if(target[key] == null) return null
 

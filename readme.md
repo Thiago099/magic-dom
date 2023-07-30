@@ -134,12 +134,13 @@ myState.myProperty = "world"
 
 You can use the model keyword to sync a state with a input value
 ```jsx
-var myInput = <input model={myState}/>
+const myState = state({myProperty:"myText"})
+var myInput = <input model={myState.$myProperty}/>
 ```
 or 
 ```jsx
-var myInput = <input/>
-myInput.$model(myState)
+const myState = state("myText")
+var myInput = <input model={myState}/>
 ```
 
 

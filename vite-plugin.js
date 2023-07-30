@@ -32,7 +32,7 @@ function Plugin(config)
             {
                 if (id.endsWith('.jsx')) {
                     code = parse(code);
-                    // console.log(code)
+                    console.log(code)
                 }
             }
             return code;

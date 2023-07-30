@@ -147,11 +147,11 @@ class builder
     $model(element)
     {
         return (old) => {
-            this.value = element.$value
+            this.value = element.value
             if(!old)
             {
-                this.$on("input",()=>{
-                    element.$value = this.value
+                this.$on("input",() => {
+                    element.value = this.value
                 })
             }
             return true
@@ -161,6 +161,7 @@ class builder
     $if(condition)
     {
         return (old) => {
+
             if(!old)
             {
                 old = this.style.display
@@ -170,6 +171,16 @@ class builder
 
             return old
         }
+    }
+
+    __child(el)
+    {
+        if(!(el instanceof HTMLElement))
+        {
+            el = document.createTextNode(el)
+        }
+
+        this.appendChild(el)
     }
 
     $child(el)
@@ -249,7 +260,8 @@ var blacklist = [
     "$on",
     "$update",
     "$parent",
-    "__update"
+    "__update",
+    "__child"
 ]
 
 
@@ -314,19 +326,12 @@ function getFunctionsFromClass(className) {
     for(const parameter of params)
     {
         const {element, properties} = dig(parameter)
-        if(element?.$key == "ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62" && item != "$model")
-        {
-            parameters.push(element.$value)
-        }
-        else
-        {
-            parameters.push(element)
-        }
+        parameters.push(element)
     }
     return parameters
   }
 
-  function initializeParameters(item, params, result)
+  function initializeParameters(key, params, result)
   {
     var parameters = []
     for(const parameter of params)
@@ -339,21 +344,7 @@ function getFunctionsFromClass(className) {
                 item.$subscribe(result)
             }
         }
-        if(element?.$key == "ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62" )
-        {
-            if(item == "$model")
-            {
-                parameters.push(element)
-            }
-            else
-            {
-                parameters.push(element.$value)
-            }
-        }
-        else
-        {
-            parameters.push(element)
-        }
+        parameters.push(element)
     }
     return parameters
   }

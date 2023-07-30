@@ -22,7 +22,14 @@ const JSXNode = (name, props, ...children) => {
         el = element(name);
         for(const child of children)
         {
-            el.$child(child)
+            if(child.$key == "471ddd10-6cc3-429b-ba9a-5f4250686d4a")
+            {
+                el.$child(child)
+            }
+            else
+            {
+                el.__child(child)
+            }
         }
     }
 
