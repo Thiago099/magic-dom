@@ -37,8 +37,13 @@ npm run build
 
 create the element
 ```jsx
-const div = <div></div>
+const div = <div class="class1 class1" style="key1:value1;key2:value2"></div>
 ```
+or
+```jsx
+const div = <div class={{class1:true, class1:true}} style={{key1:value1, key2:value2}}></div>
+```
+
 
 sets inline style to the element
 ```jsx
