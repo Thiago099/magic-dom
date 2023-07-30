@@ -208,11 +208,11 @@ class builder
     {
         return (old) => {
 
-            if(!old)
+            if(typeof(old) === "undefined")
             {
                 old = this.style.display
             }
-            
+
             this.style.display = condition ? old : "none"
 
             return old
