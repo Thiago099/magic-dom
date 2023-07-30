@@ -5,23 +5,46 @@ export { state }
 function state(value){
     const elements = new Set();
 
+    let canUpdate = true
+    function update()
+    {
+        if(!canUpdate) return
+
+        canUpdate = false
+
+        try
+        {
+            for(const element of elements){
+                element.__update();
+            }
+        }
+        finally
+        {
+            canUpdate = true
+        }
+
+    }
+
     const validator = {
         get(target, key) {
             if (key === '$on') return on;
             if (key === '$subscribe') return subscribe;
             if (key === '$key') return "ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62";
             if (key === '$value') return target;
+
+            if(target[key] == undefined) return undefined
+            if(target[key] == null) return null
+
             if(typeof(target[key]) === "function")
             {
                 return (...params) => {
-                    var result = target[key](...params)
-                    for(const element of elements){
-                        element.__update();
-                    }
+                    var result = target[key].apply(target, params)
+                    update()
                     return result
                 }
             }
-            if (typeof target[key] === 'object' && target[key] !== null) 
+            
+            if (typeof target[key] === 'object') 
             {
                 return new Proxy(target[key], validator)
             }
@@ -40,17 +63,13 @@ function state(value){
                 set $value(v)
                 {
                     target[key] = v
-                    for(const element of elements){
-                        element.__update();
-                    }
+                    update()
                 }
             };
         },
         set (target, key, _value) {
             target[key] = _value;
-            for(const element of elements){
-                element.__update();
-            }
+            update()
           return true
         }
       }
@@ -78,9 +97,7 @@ function state(value){
         set $value(v)
         {
             value = v
-            for(const element of elements){
-                element.__update();
-            }
+            update()
         }
     }
 
