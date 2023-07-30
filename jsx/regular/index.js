@@ -50,9 +50,7 @@ const JSXNode = (name, props, ...children) => {
         if: condition =>{
             el.$if(condition)
         },
-        ref: (value) => {
-            value.$element = el;
-        },
+
         model: css =>{
             el.$model(css)
         },
@@ -72,6 +70,9 @@ const JSXNode = (name, props, ...children) => {
         },
         class: _class => {
             el.__class(_class)
+        },
+        ref: (value) => {
+            value.$element = el;
         },
         css: css =>{
             el.__css(css)
