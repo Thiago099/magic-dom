@@ -5,7 +5,7 @@ export * from '../../lib/ref.js'
 
 const JSXFragment = (props, ...children) => undefined
 const JSXNode = (name, props, ...children) => {
-    var el;
+    let el;
     if (typeof name === 'function') {
         el = name(props, ...children);
         if(el === undefined)
@@ -52,7 +52,7 @@ const JSXNode = (name, props, ...children) => {
 
     }
 
-    for(var prop in props)
+    for(let prop in props)
     {
         const splitProp = prop.split(":");
         if(splitProp.length == 2)

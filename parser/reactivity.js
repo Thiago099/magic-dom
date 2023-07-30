@@ -113,7 +113,7 @@ function addJSXReactivity(parsed)
 
     for(const element of elements)
     {
-        var properties = element.arguments[1].properties;
+        let properties = element.arguments[1].properties;
         if(properties)
         {
             for(const property of properties)
@@ -129,7 +129,7 @@ function addJSXReactivity(parsed)
                 }
             }
         }
-        for(var i = 2; i < element.arguments.length; i++)
+        for(let i = 2; i < element.arguments.length; i++)
         {
             element.arguments[i] = addReactivityIfRelevant(element.arguments[i]);
         }

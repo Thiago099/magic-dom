@@ -2,14 +2,14 @@
 
 ## Explanation
 
-This is a frontend library that allow you to use jsx syntax. This library has two setup options, a simple version that does not track your variables, and a complete version with reactivity.
+This is a frontend library that allow you to use jsx syntax. This library has two setup options, a simple version that does not track your letiables, and a complete version with reactivity.
 
 The result of a jsx element creation, is a dom element, with added extra functionality.
 
 example:
 
 ```jsx
-var myDiv = <div></div>
+let myDiv = <div></div>
 ```
 
 myDiv return a dom element, with the added functionality listed below
@@ -82,7 +82,7 @@ if they don't just use myRef.$element instead
 ```jsx
 myRef = ref()
 
-var element =
+let element =
 <div>
     <button ref={myRef}>Test</button>
 </div>
@@ -105,25 +105,25 @@ const instance = <Component text="hello world">content</Component>
 
 ## non lite version only
 
-all variables that are passed to the element(both trough jsx and the $ methods) retained, so when you call
+all letiables that are passed to the element(both trough jsx and the $ methods) retained, so when you call
 the update it fetches them again or use state that will fetch them automatically
 
- note that in the complete version you might want to use for(const item of data) instead of for(let item of data) as it fetches the variables again from the context
+ note that in the complete version you might want to use for(const item of data), for(let item of data) instead of for(var item of data) as it fetches the letiables again from the context
 ```jsx
 div.$update()
 ```
 
 State will automatically update when it is changed
 ```jsx
-var name = state("");
-var myDiv = <div>{"hello " + name.value}</div>
+let name = state("");
+let myDiv = <div>{"hello " + name.value}</div>
 name.value = "thiago"
 ```
 
 you can pass a object and or array trough the state
 ```jsx
-var myState = state({myProperty:"hello"});
-var myDiv = <div>{myState.myProperty}</div>
+let myState = state({myProperty:"hello"});
+let myDiv = <div>{myState.myProperty}</div>
 myState.myProperty = "world"
 ```
 
@@ -131,26 +131,26 @@ you can use the if to hide elements
 
 ```jsx
 const condition = state(false)
-var myDiv = <div if={condition.value}>conditional display</div>
+let myDiv = <div if={condition.value}>conditional display</div>
 ```
 or
 ```jsx
 const condition = state(false)
-var myDiv = <div>conditional display</div>
+let myDiv = <div>conditional display</div>
 myDiv.$if(condition.value)
 ```
 
 You can use the model keyword to sync a state with a input value
 ```jsx
 const myState = state({myProperty:"myText"})
-var myInput = <input model={myState.$myProperty}/>
+let myInput = <input model={myState.$myProperty}/>
 myState.myProperty = "newText"
 
 ```
 or 
 ```jsx
 const myState = state("myText")
-var myInput = <input model={myState}/>
+let myInput = <input model={myState}/>
 myState.value = "newText"
 ```
 

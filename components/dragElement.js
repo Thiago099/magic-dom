@@ -1,6 +1,6 @@
 export { DragElement }
 function DragElement({element, header = null, dragEnd = null}) {
-    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
     const drag_handle = header || element;
     drag_handle.$on('mousedown',dragMouseDown)
     .$style({'cursor':'move'})

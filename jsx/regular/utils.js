@@ -6,7 +6,7 @@ function callArray(x)
 }
 function callObject(x)
 {
-    var result = {}
+    const result = {}
     for(const item in x)
     {
         result[item] = digShallow(x[item])

@@ -136,21 +136,21 @@ function cleanUp(str)
 
 function buildPattern(pattern)
 {
-    var groups = []
+    const groups = []
     const patternString = "^"+cleanUp(pattern).replace(/{.*?}/g,group=>{
         groups.push(group.replace(/({|})/g,""))
         return "(.*?)"
     })+"$"
-    var regex = new RegExp(patternString)
+    const regex = new RegExp(patternString)
     function match(data)
     {
-        var match = data.match(regex)
+        let match = data.match(regex)
         
         if(match)
         {
             match = match.slice(1)
-            var result = {}
-            for(var i = 0; i < match.length;i++)
+            let result = {}
+            for(let i = 0; i < match.length;i++)
             {
                 result[groups[i]] = match[i]
             }

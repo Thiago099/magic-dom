@@ -1,5 +1,5 @@
 import './assets/modal.css'
-var zindex = 1000;
+let zindex = 1000;
 
 export { Modal }
 

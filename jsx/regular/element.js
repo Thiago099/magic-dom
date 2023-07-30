@@ -29,7 +29,7 @@ class builder
     
     $update()
     {
-        var elements = this.querySelectorAll('*');
+        let elements = this.querySelectorAll('*');
 
         for(const item of this.__events)
         {
@@ -324,9 +324,9 @@ class builder
     }
 }
 
-var builderInstance = new builder()
+let builderInstance = new builder()
 
-var blacklist = [
+let blacklist = [
     "$on",
     "$update",
     "$parent",
@@ -390,7 +390,7 @@ function getFunctionsFromClass(className) {
 
   function getParameters(item, params)
   {
-    var parameters = []
+    let parameters = []
     for(const parameter of params)
     {
         const {element, properties} = dig(parameter)
@@ -401,7 +401,7 @@ function getFunctionsFromClass(className) {
 
   function initializeParameters(key, params, result)
   {
-    var parameters = []
+    let parameters = []
     for(const parameter of params)
     {
         const {element, properties} = dig(parameter)

@@ -64,7 +64,7 @@ function state(value){
             if(typeof(target[key]) === "function")
             {
                 return (...params) => {
-                    var result = target[key].apply(target, params)
+                    let result = target[key].apply(target, params)
                     update()
                     return result
                 }

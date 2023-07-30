@@ -118,7 +118,7 @@ class builder
     }
 }
 
-var builderInstance = new builder()
+const builderInstance = new builder()
 
 function element(name)
 {
