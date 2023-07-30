@@ -209,7 +209,7 @@ class builder
                 }
             }
 
-            if(old)
+            if(old && old != el)
             {
                 if(Array.isArray(old))
                 {
