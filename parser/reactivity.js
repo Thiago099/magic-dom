@@ -45,27 +45,41 @@ const function_pattern = {
         }
     }
 }
-
+function loop(item)
+{
+    while(true)
+    {
+        if(item.type == "MemberExpression")
+        {
+            item = item.object
+            continue
+        }
+        if(item.type == "CallExpression")
+        {
+            item = item.callee
+            continue
+        }
+        break
+    }
+    if(item.type == "Identifier")
+    {
+        return item
+    }
+    return null
+}
 
 const reactivityCandidates = [
     {
         pattern:{
             "type": "MemberExpression",
         },
-        callback: (item) => {
-
-            while(item.type == "MemberExpression")
-            {
-                item = item.object
-            }
-
-            if(item.type == "Identifier")
-            {
-                return item
-            }
-
-            return null
-        }
+        callback: loop
+    },
+    {
+        pattern:{
+            "type": "CallExpression",
+        },
+        callback: loop
     },
     {
         pattern:{
@@ -147,42 +161,42 @@ function arrowFunction(input)
     }
 }
 
-function safe(input)
-{
-    return {
-        "type": "ConditionalExpression",
-        "start": 0,
-        "end": 40,
-        "test": {
-            "type": "BinaryExpression",
-            "start": 0,
-            "end": 24,
-            "left": {
-                "type": "UnaryExpression",
-                "start": 0,
-                "end": 9,
-                "operator": "typeof",
-                "prefix": true,
-                "argument": input
-            },
-            "operator": "!=",
-            "right": {
-                "type": "Literal",
-                "start": 13,
-                "end": 24,
-                "value": "undefined",
-                "raw": "\"undefined\""
-            }
-        },
-        "consequent": input,
-        "alternate": {
-            "type": "Identifier",
-            "start": 31,
-            "end": 40,
-            "name": "undefined"
-        }
-    }
-}
+// function safe(input)
+// {
+//     return {
+//         "type": "ConditionalExpression",
+//         "start": 0,
+//         "end": 40,
+//         "test": {
+//             "type": "BinaryExpression",
+//             "start": 0,
+//             "end": 24,
+//             "left": {
+//                 "type": "UnaryExpression",
+//                 "start": 0,
+//                 "end": 9,
+//                 "operator": "typeof",
+//                 "prefix": true,
+//                 "argument": input
+//             },
+//             "operator": "!=",
+//             "right": {
+//                 "type": "Literal",
+//                 "start": 13,
+//                 "end": 24,
+//                 "value": "undefined",
+//                 "raw": "\"undefined\""
+//             }
+//         },
+//         "consequent": input,
+//         "alternate": {
+//             "type": "Identifier",
+//             "start": 31,
+//             "end": 40,
+//             "name": "undefined"
+//         }
+//     }
+// }
 
 function addArrowFunction(input)
 {
@@ -216,7 +230,7 @@ function addArrowFunction(input)
                     "type": "ArrayExpression",
                     "start": 37,
                     "end": 39,
-                    "elements": distinct(findMutiPatternShallow(input,reactivityCandidates)).map(safe)
+                    "elements": distinct(findMutiPatternShallow(input,reactivityCandidates))//.map(safe)
                 },
                 "kind": "init"
             },
