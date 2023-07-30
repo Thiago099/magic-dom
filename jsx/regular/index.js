@@ -24,12 +24,10 @@ const JSXNode = (name, props, ...children) => {
         {
             if(child.$key == "471ddd10-6cc3-429b-ba9a-5f4250686d4a")
             {
-                console.log("a",child)
                 el.$child(child)
             }
             else
             {
-                console.log("b",child)
                 el.__child(child)
             }
         }
