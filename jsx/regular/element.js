@@ -221,11 +221,28 @@ class builder
 
     __child(el)
     {
-        if(!(el instanceof HTMLElement))
+        if(Array.isArray(el))
         {
-            el = document.createTextNode(el)
+            for(const item of el)
+            {
+                if(!(item instanceof HTMLElement))
+                {
+                    this.appendChild(document.createTextNode(item))
+                }
+                else
+                {
+                    this.appendChild(item)
+                }
+            }
         }
-        this.appendChild(el)
+        else
+        {
+            if(!(el instanceof HTMLElement))
+            {
+                el = document.createTextNode(el)
+            }
+            this.appendChild(el)
+        }
     }
 
     $child(el)
