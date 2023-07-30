@@ -2,7 +2,7 @@
 
 ## Explanation
 
-This is a frontend library that allow you to use jsx syntax. This library has two setup options, a lite weight version that does not track your variables, and a complete version with reactivity. note that in the complete version you might want to use for(const item of data) instead of for(let item of data) as it fetches the variables again from the context
+This is a frontend library that allow you to use jsx syntax. This library has two setup options, a simple version that does not track your variables, and a complete version with reactivity.
 
 The result of a jsx element creation, is a dom element, with added extra functionality.
 
@@ -102,6 +102,8 @@ const instance = <Component text="hello world">content</Component>
 
 all variables that are passed to the element(both trough jsx and the $ methods) retained, so when you call
 the update it fetches them again or use state that will fetch them automatically
+
+ note that in the complete version you might want to use for(const item of data) instead of for(let item of data) as it fetches the variables again from the context
 ```jsx
 div.$update()
 ```
