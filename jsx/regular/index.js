@@ -40,6 +40,9 @@ const JSXNode = (name, props, ...children) => {
         css: css =>{
             el.$css(css)
         },
+        if: condition =>{
+            el.$if(condition)
+        },
         ref: (value) => {
             value.$element = el;
         },

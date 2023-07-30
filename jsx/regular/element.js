@@ -158,6 +158,20 @@ class builder
         }
     }
 
+    $if(condition)
+    {
+        return (old) => {
+            if(!old)
+            {
+                old = this.style.display
+            }
+            
+            this.style.display = condition ? old : "none"
+
+            return old
+        }
+    }
+
     $child(el)
     {
         return (old) => {
