@@ -2,7 +2,7 @@
 
 ## Explanation
 
-This is a frontend library that allow you to use jsx syntax. This library has two setup options, a simple version that does not track your letiables, and a complete version with reactivity.
+This is a frontend library that allow you to use jsx syntax. This library has two setup options, a simple version that does not track your variables, and a complete version with reactivity.
 
 The result of a jsx element creation, is a dom element, with added extra functionality.
 
