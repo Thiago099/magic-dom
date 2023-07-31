@@ -310,17 +310,40 @@ class builder
                 {
                     for(const item of old)
                     {
-                        item.remove()
+                        if(item.__remove)
+                        {
+                            item.__remove()
+                        }
+                        else
+                        {
+                            item.remove()
+                        }
                     }
                 }
                 else
                 {
-                    old.remove()
+                    if(old.__remove)
+                    {
+                        old.__remove()
+                    }
+                    else
+                    {
+                        old.remove()
+                    }
                 }
             }
             
             return el
         }
+    }
+
+    __remove()
+    {
+        for(const item of this.__state)
+        {
+            item.$unsubscribe(this)
+        }
+        this.remove()
     }
 }
 
@@ -330,6 +353,7 @@ let blacklist = [
     "$on",
     "$update",
     "$parent",
+    "remove"
 ]
 
 
@@ -339,6 +363,7 @@ function element(name)
     result = document.createElement(name);
 
     result.__events = []
+    result.__state = []
 
     for(const item of getFunctionsFromClass(builder))
     {

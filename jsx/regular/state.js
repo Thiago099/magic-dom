@@ -4,31 +4,14 @@ export { state }
 
 function state(value){
     const elements = new Set();
-
     let canUpdate = true
-    function update()
-    {
-        if(!canUpdate) return
 
-        canUpdate = false
-
-        try
-        {
-            for(const element of elements){
-                element.__update();
-            }
-        }
-        finally
-        {
-            canUpdate = true
-        }
-
-    }
 
     const validator = {
         get(target, key) {
             if (key === '$on') return on;
             if (key === '$subscribe') return subscribe;
+            if (key === '$unsubscribe') return unsubscribe;
             if (key === '$key') return "ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62";
 
             if(key.startsWith("$"))
@@ -100,6 +83,10 @@ function state(value){
         {
             return subscribe
         },
+        get $unsubscribe()
+        {
+            return unsubscribe
+        },
         get $on()
         {
             return on
@@ -111,14 +98,35 @@ function state(value){
         }
     }
 
-    function on(callback)
+    function on(item)
     {
-        elements.add({__update:callback})
+        elements.add({__update:item})
     }
 
-    function subscribe(callback){
-        // console.log('subscribe', callback);
-        elements.add(callback);
+    function subscribe(item){
+        item.__state.push(this)
+        elements.add(item);
+    }
+    function unsubscribe(item){
+        elements.delete(item);
+    }
+    function update()
+    {
+        if(!canUpdate) return
+
+        canUpdate = false
+
+        try
+        {
+            for(const element of elements){
+                element.__update();
+            }
+        }
+        finally
+        {
+            canUpdate = true
+        }
+
     }
 
 
