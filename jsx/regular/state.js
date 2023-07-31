@@ -33,7 +33,7 @@ function state(value){
                     {
                         return on
                     },
-                    set value(v)
+                    set $value(v)
                     {
                         target[key] = v
                         update()
@@ -91,7 +91,7 @@ function state(value){
         {
             return on
         },
-        set value(v)
+        set $value(v)
         {
             value = v
             update()
