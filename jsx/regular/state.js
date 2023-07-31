@@ -14,7 +14,7 @@ function state(value){
             if (key === '$unsubscribe') return unsubscribe;
             if (key === '$key') return "ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62";
 
-            if(key.startsWith("$"))
+            if(typeof(key) === "string" && key.startsWith("$"))
             {
                 key = key.substring(1)
                 return {
@@ -41,8 +41,7 @@ function state(value){
             }
 
 
-            if(target[key] == undefined) return undefined
-            if(target[key] == null) return null
+
 
             if(typeof(target[key]) === "function")
             {
