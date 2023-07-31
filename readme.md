@@ -33,6 +33,22 @@ npm run dev
 npm run build
 ```
 
+## configure
+
+if you are not interested in reactivity you can opt for the lite version, just replace
+the plugin import to `MagicDomLiteVitePlugin`
+
+```jsx
+import { MagicDomVitePlugin, MagicDomLiteVitePlugin }  from "magic-dom/vite-plugin"
+
+export default defineConfig({
+    plugins:[
+        MagicDomLiteVitePlugin(), // <--
+    ],
+    //...
+})
+```
+
 ## Usage
 
 create the element
