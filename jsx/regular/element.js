@@ -193,11 +193,11 @@ class builder
     $model(element)
     {
         return (old) => {
-            this.value = element.value
+            this.value = element.$value
             if(!old)
             {
                 this.$on("input",() => {
-                    element.value = this.value
+                    element.$value = this.value
                 })
             }
             return true

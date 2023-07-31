@@ -132,8 +132,8 @@ div.$update()
 State will automatically update when it is changed
 ```jsx
 let name = state("");
-let myDiv = <div>{"hello " + name.value}</div>
-name.value = "thiago"
+let myDiv = <div>{"hello " + name.$value}</div>
+name.$value = "thiago"
 ```
 
 you can pass a object and or array trough the state
@@ -147,13 +147,13 @@ you can use the if to hide elements
 
 ```jsx
 const condition = state(false)
-let myDiv = <div if={condition.value}>conditional display</div>
+let myDiv = <div if={condition.$value}>conditional display</div>
 ```
 or
 ```jsx
 const condition = state(false)
 let myDiv = <div>conditional display</div>
-myDiv.$if(condition.value)
+myDiv.$if(condition.$value)
 ```
 
 You can use the model keyword to sync a state with a input value
@@ -167,7 +167,7 @@ or
 ```jsx
 const myState = state("myText")
 let myInput = <input model={myState}/>
-myState.value = "newText"
+myState.$value = "newText"
 ```
 
 
