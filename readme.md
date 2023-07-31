@@ -36,7 +36,7 @@ npm run build
 ## configure
 
 if you are not interested in reactivity you can opt for the lite version, just replace
-the plugin import to `MagicDomLiteVitePlugin` in the `vite.config.js`
+the vite plugin to `MagicDomLiteVitePlugin` in the `vite.config.js`
 
 ```jsx
 import { MagicDomVitePlugin, MagicDomLiteVitePlugin }  from "magic-dom/vite-plugin"
