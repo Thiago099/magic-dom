@@ -45,41 +45,25 @@ const function_pattern = {
         }
     }
 }
-function loop(item)
-{
-    while(true)
-    {
-        if(item.type == "MemberExpression")
-        {
-            item = item.object
-            continue
-        }
-        if(item.type == "CallExpression")
-        {
-            item = item.callee
-            continue
-        }
-        break
-    }
-    if(item.type == "Identifier")
-    {
-        return item
-    }
-    return null
-}
 
 const reactivityCandidates = [
     {
         pattern:{
             "type": "MemberExpression",
         },
-        callback: loop
+        callback:  (item) => item.object
     },
     {
         pattern:{
             "type": "CallExpression",
         },
-        callback: loop
+        callback:  (item) => item.callee
+    },
+    {
+        pattern:{
+            "type": "Property",
+        },
+        callback:  (item) => item.value
     },
     {
         pattern:{
