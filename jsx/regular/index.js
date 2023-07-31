@@ -111,7 +111,7 @@ const JSXNode = (name, props, ...children) => {
         }
         else
         {
-            el[prop] = dig(props[prop])
+            el[prop] = dig(props[prop]).element
         }
     }
 
