@@ -265,6 +265,10 @@ class builder
 
             if(Array.isArray(el))
             {
+                if(el.length == 0)
+                {
+                    el = [element("span")]
+                }
                 el = el.map(x => {
                     if(!(x instanceof HTMLElement))
                     {
