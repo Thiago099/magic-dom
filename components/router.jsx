@@ -15,7 +15,7 @@ const router = Router({
 
 router.container.$parent(document.body)
 
-console.log(router.getPath()) //current path
+console.log(router.getRoute()) //current path
 
 router.go("route2") // navigate to the router path
 
@@ -41,6 +41,7 @@ function Router(routes, main=null)
     const container = <div style="width:100%"></div>
 
     let currentPath  = cleanUp(window.location.pathname);
+    let current = {data:null,route:null,path:null}
     if(!routes["/"] && currentPath == "")
     {
         navigate(main ??Object.keys(routes)[0])
@@ -67,9 +68,14 @@ function Router(routes, main=null)
             const result = match(currentPath)
             if(result)
             {
+                current = {
+                    data: result,
+                    route: route,
+                    path: currentPath
+                }
                 routes[route]()
                 .then(module => {
-                    
+
                     if(module.default instanceof asyncConstructor)
                     {
                         module.default({navigate, navigateBack,...result})
@@ -109,9 +115,9 @@ function Router(routes, main=null)
 
     }
 
-    function getPath()
+    function getRoute()
     {
-        return currentPath
+        return current
     }
 
     function navigate(path)
@@ -126,7 +132,7 @@ function Router(routes, main=null)
         window.history.back()
         updatePageContainer()
     }
-    return {container, navigate, getPath, navigateBack}
+    return {container, navigate, getRoute, navigateBack}
 }
 
 function cleanUp(str)
@@ -160,5 +166,5 @@ function buildPattern(pattern)
         return false
     }
 
-    return {match,route:pattern, get length(){return patternString.length}}
+    return {match, route:pattern, get length(){return patternString.length}}
 }
