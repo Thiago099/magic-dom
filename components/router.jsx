@@ -82,7 +82,7 @@ function Router(routes, main = null)
 
                     if(module.default instanceof asyncConstructor)
                     {
-                        module.default({navigate, navigateBack,...result})
+                        module.default({navigate, navigateReplace, navigateBack,...result})
                         .then(x=>{
                             container.innerHTML = ""
                             x.$parent(container)
@@ -91,7 +91,7 @@ function Router(routes, main = null)
                     else
                     {
                         container.innerHTML = ""
-                        module.default({navigate, navigateBack,...result}).$parent(container)
+                        module.default({navigate, navigateReplace , navigateBack,...result}).$parent(container)
                     }
                 })
                 // .catch(() => {
@@ -124,6 +124,14 @@ function Router(routes, main = null)
         return current
     }
 
+    function navigateReplace(path)
+    {
+        path = cleanUp(path)
+        window.history.replaceState({}, "", window.location.origin + ("/" + path).replace(/\/+/g,"/"));
+        currentPath = path
+        updatePageContainer()
+    }
+
     function navigate(path)
     {
         backRoutes.push(currentPath)
@@ -140,7 +148,7 @@ function Router(routes, main = null)
         currentPath = path
         updatePageContainer()
     }
-    return {container, navigate, getRoute, navigateBack}
+    return {container, navigate, navigateReplace, getRoute, navigateBack}
 }
 
 function cleanUp(str)
