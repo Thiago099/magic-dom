@@ -42,6 +42,9 @@ function Router(routes, main=null)
 
     let currentPath  = cleanUp(window.location.pathname);
     let current = {data:null,route:null,path:null}
+
+    let backRoutes = []
+
     if(!routes["/"] && currentPath == "")
     {
         navigate(main ??Object.keys(routes)[0])
@@ -122,14 +125,18 @@ function Router(routes, main=null)
 
     function navigate(path)
     {
+        backRoutes.push(currentPath)
+        __navigate(path)
+    }
+    function navigateBack(fallback)
+    {
+        __navigate(backRoutes.pop() ?? fallback)
+    }
+    function __navigate(path)
+    {
         path = cleanUp(path)
         window.history.pushState({}, "", window.location.origin + ("/" + path).replace(/\/+/g,"/"));
         currentPath = path
-        updatePageContainer()
-    }
-    function navigateBack()
-    {
-        window.history.back()
         updatePageContainer()
     }
     return {container, navigate, getRoute, navigateBack}
