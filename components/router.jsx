@@ -35,19 +35,19 @@ export { Router }
 
 const asyncConstructor =  (async () => {}).constructor
 
-function Router(routes, main=null)
+function Router(routes, main = null, metadata = {})
 {
     const patterns = Object.keys(routes).map(buildPattern).sort((a,b)=> b.length - a.length)
     const container = <div style="width:100%"></div>
 
     let currentPath  = cleanUp(window.location.pathname);
-    let current = {data:null,route:null,path:null}
+    let current = {data:null,route:null,path:null,metadata:null}
 
     let backRoutes = []
 
     if(!routes["/"] && currentPath == "")
     {
-        navigate(main ??Object.keys(routes)[0])
+        navigate(main ?? Object.keys(routes)[0])
     }
     else
     {
@@ -74,7 +74,12 @@ function Router(routes, main=null)
                 current = {
                     data: result,
                     route: route,
-                    path: currentPath
+                    path: currentPath,
+                    metadata: null
+                }
+                if(metadata[route])
+                {
+                    current.metadata = metadata[route]
                 }
                 routes[route]()
                 .then(module => {
