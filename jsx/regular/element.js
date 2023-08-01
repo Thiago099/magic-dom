@@ -265,6 +265,7 @@ class builder
 
             if(Array.isArray(el))
             {
+                el = el.filter(x => x != null)
                 if(el.length == 0)
                 {
                     el = [element("span")]
@@ -293,7 +294,11 @@ class builder
             }
             else
             {
-                if(!(el instanceof HTMLElement))
+                if(el == null)
+                {
+                    el = element("span")
+                }
+                else if(!(el instanceof HTMLElement))
                 {
                     el = document.createTextNode(el)
                 }
