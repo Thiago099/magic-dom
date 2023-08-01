@@ -35,7 +35,7 @@ export { Router }
 
 const asyncConstructor =  (async () => {}).constructor
 
-function Router(routes, main = null, metadata = {})
+function Router(routes, main = null)
 {
     const patterns = Object.keys(routes).map(buildPattern).sort((a,b)=> b.length - a.length)
     const container = <div style="width:100%"></div>
@@ -76,10 +76,6 @@ function Router(routes, main = null, metadata = {})
                     route: route,
                     path: currentPath,
                     metadata: null
-                }
-                if(metadata[route])
-                {
-                    current.metadata = metadata[route]
                 }
                 routes[route]()
                 .then(module => {
