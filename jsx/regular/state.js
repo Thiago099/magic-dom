@@ -37,6 +37,10 @@ function state(value){
                     {
                         target[key] = v
                         update()
+                    },
+                    set $content(v)
+                    {
+                        target[key] = v
                     }
                 }
             }
@@ -95,6 +99,10 @@ function state(value){
         {
             value = v
             update()
+        },
+        set $content(v)
+        {
+            value = v
         }
     }
 

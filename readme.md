@@ -170,4 +170,11 @@ let myInput = <input model={myState}/>
 myState.$value = "newText"
 ```
 
+if you do not want to trigger reactivity you can use
 
+```jsx
+const myState = state("myText")
+let myInput = <input model={myState}/>
+myState.$content = "newText"
+// the input is still on myText
+```
