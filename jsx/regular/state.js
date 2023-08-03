@@ -46,8 +46,6 @@ function state(value){
             }
 
 
-
-
             if(typeof(target[key]) === "function")
             {
                 return (...params) => {
@@ -57,7 +55,7 @@ function state(value){
                 }
             }
             
-            if (typeof target[key] === 'object') 
+            if ( target[key] != null && typeof target[key] === 'object') 
             {
                 return new Proxy(target[key], validator)
             }

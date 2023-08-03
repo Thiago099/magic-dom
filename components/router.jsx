@@ -79,19 +79,37 @@ function Router(routes, main = null)
                 }
                 routes[route]()
                 .then(module => {
-
-                    if(module.default instanceof asyncConstructor)
+                    if(module.default)
                     {
-                        module.default({navigate, navigateReplace, navigateBack,...result})
-                        .then(x=>{
+                        if(module.default instanceof asyncConstructor)
+                        {
+                            module.default({navigate, navigateReplace, navigateBack,...result})
+                            .then(x=>{
+                                container.innerHTML = ""
+                                x.$parent(container)
+                            })
+                        }
+                        else
+                        {
                             container.innerHTML = ""
-                            x.$parent(container)
-                        })
+                            module.default({navigate, navigateReplace , navigateBack,...result}).$parent(container)
+                        }
                     }
                     else
                     {
-                        container.innerHTML = ""
-                        module.default({navigate, navigateReplace , navigateBack,...result}).$parent(container)
+                        if(module instanceof asyncConstructor)
+                        {
+                            module({navigate, navigateReplace, navigateBack,...result})
+                            .then(x=>{
+                                container.innerHTML = ""
+                                x.$parent(container)
+                            })
+                        }
+                        else
+                        {
+                            container.innerHTML = ""
+                            module({navigate, navigateReplace , navigateBack,...result}).$parent(container)
+                        }
                     }
                 })
                 // .catch(() => {
