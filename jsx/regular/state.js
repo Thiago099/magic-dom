@@ -10,6 +10,7 @@ function state(value){
     const validator = {
         get(target, key) {
             if (key === '$on') return on;
+            if (key === '$update') return update;
             if (key === '$subscribe') return subscribe;
             if (key === '$unsubscribe') return unsubscribe;
             if (key === '$key') return "ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62";
@@ -28,6 +29,10 @@ function state(value){
                     get $subscribe()
                     {
                         return subscribe
+                    },
+                    get $update()
+                    {
+                        return update
                     },
                     get $on()
                     {
@@ -92,6 +97,10 @@ function state(value){
         get $on()
         {
             return on
+        },
+        get $update()
+        {
+            return update
         },
         set $value(v)
         {
