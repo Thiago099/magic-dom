@@ -15,6 +15,7 @@ const JSXNode = (name, props, ...children) => {
         {
             return children
         }
+        return el
     }
     else
     {
