@@ -14,6 +14,7 @@ function state(value){
             if (key === '$subscribe') return subscribe;
             if (key === '$unsubscribe') return unsubscribe;
             if (key === '$key') return "ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62";
+            if (key === '$content') return target;
             if (key === '$value') return target;
 
             if(typeof(key) === "string" && key.startsWith("$"))
@@ -24,6 +25,9 @@ function state(value){
                         return 'ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62';
                     },
                     get $value(){
+                        return target[key]
+                    },
+                    get $content(){
                         return target[key]
                     },
                     get $subscribe()
@@ -84,6 +88,9 @@ function state(value){
             return 'ce800a6b-1ecc-41dd-8ade-fb12cd3cdb62';
         },
         get $value(){
+            return value
+        },
+        get $content(){
             return value
         },
         get $subscribe()
