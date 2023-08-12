@@ -121,14 +121,14 @@ const instance = <Component text="hello world">content</Component>
 
 You can create scoped CSS that is valid only to some elements, by naming the file with the suffix .scoped.css
 
-then you can use the tag scope to apply the css
+then you can use the property scope to apply the css
 ```jsx
 import "./my-style.scoped.css"
 const myElement = 
 <div scope="my-style">
 </div>
 ```
-In the CSS the: root pseudo element refers to the element with the scope tag
+In the CSS the: root pseudo element refers to the element with the scope property
 ```jsx
 :root{
     color:red;
