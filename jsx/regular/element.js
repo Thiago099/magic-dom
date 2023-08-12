@@ -355,6 +355,16 @@ class builder
         this.remove()
     }
 
+    __scope(name)
+    {
+        this.__prop("data-css-scope-jdbe",name.replace(/[^A-Za-z0-9]+/g,"-"))
+    }
+
+    $scope(name)
+    {
+        this.$prop("data-css-scope-jdbe",name.replace(/[^A-Za-z0-9]+/g,"-"))
+    }
+
     $prop(name, value)
     {
         return (old) => {
@@ -376,6 +386,17 @@ class builder
             return {name, value}
         }
     }
+    __prop(name, value)
+    {
+        if(directList.includes(name))
+        {
+            this[name] = value
+        }
+        else
+        {
+            this.setAttribute(name, value)
+        }
+    }
 }
 
 const directList = ["disabled"]
@@ -386,6 +407,7 @@ let blacklist = [
     "$on",
     "$update",
     "$parent",
+    "$scope",
     "remove"
 ]
 

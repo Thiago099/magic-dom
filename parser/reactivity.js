@@ -8,6 +8,7 @@ const input_blacklist = [
     "on",
     "ref",
     "parent",
+    "scope",
     /on:.+/,
 ]
 

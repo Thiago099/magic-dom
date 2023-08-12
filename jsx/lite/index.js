@@ -33,13 +33,16 @@ const JSXNode = (name, props, ...children) => {
         class: _class => {
             el.$class(_class)
         },
+        scope: _class => {
+            el.$scope(_class)
+        },
         css: css =>{
             el.$css(css)
         },
         ref: (value) => {
             value.$element = el;
         },
-        ref: (value) => {
+        if: (value) => {
             el.$if(value)
         },
     }
@@ -70,7 +73,7 @@ const JSXNode = (name, props, ...children) => {
         }
         else
         {
-            el[prop] = props[prop]
+            el.$prop(props[prop])
         }
     }
 

@@ -30,6 +30,10 @@ class builder
 
         return this
     }
+    $scope(name)
+    {
+        this.$prop("data-css-scope-jdbe",name.replace(/[^A-Za-z0-9]+/g,"-"))
+    }
 
     $on(event, callback)
     {
@@ -116,7 +120,20 @@ class builder
             this.style.display = "none"
         }
     }
+
+    $prop(name, value)
+    {
+        if(directList.includes(name))
+        {
+            this[name] = value
+        }
+        else
+        {
+            this.setAttribute(name, value)
+        }
+    }
 }
+const directList = ["disabled"]
 
 const builderInstance = new builder()
 

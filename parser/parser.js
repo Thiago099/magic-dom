@@ -3,9 +3,9 @@ import * as escodegen from "escodegen";
 
 import { addFunctionReactivity, addJSXReactivity } from "./reactivity.js";
 
-export { parse }
+export { transform }
 
-function parse(code)
+function transform(code)
 {
     const parsed = acorn.parse(code, {ecmaVersion: "latest",sourceType: "module"});
 

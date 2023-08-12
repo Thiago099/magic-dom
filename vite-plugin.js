@@ -1,5 +1,6 @@
-import { parse } from "./parser/parser.js"
-
+import { transform as transformJSX } from "./parser/parser.js"
+import { transform  as transformCSS } from "./parser/scopedCss.js"
+import path from "path"
 export { MagicDomVitePlugin, MagicDomLiteVitePlugin }
 
 function MagicDomLiteVitePlugin()
@@ -31,9 +32,13 @@ function Plugin(config)
             if(config.name == "regular")
             {
                 if (id.endsWith('.jsx')) {
-                    code = parse(code);
+                    code = transformJSX(code);
                     // console.log(code)
                 }
+            }
+            if(id.endsWith('.scoped.css'))
+            {
+                code = transformCSS(code, path.parse(id).name)
             }
             return code;
         }

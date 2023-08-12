@@ -44,6 +44,9 @@ const JSXNode = (name, props, ...children) => {
         class: _class => {
             el.$class(_class)
         },
+        class: x => {
+            el.$scope(x)
+        },
         css: css =>{
             el.$css(css)
         },
@@ -67,6 +70,9 @@ const JSXNode = (name, props, ...children) => {
         },
         if: condition =>{
             el.__if(condition)
+        },
+        scope: x=>{
+            el.__scope(x)
         },
         class: _class => {
             el.__class(_class)
@@ -112,9 +118,13 @@ const JSXNode = (name, props, ...children) => {
         {
             simpleHandles[prop](props[prop])
         }
-        else
+        else if(props[prop].$key == "471ddd10-6cc3-429b-ba9a-5f4250686d4a")
         {
             el.$prop(prop, props[prop])
+        }
+        else
+        {
+            el.__prop(prop, props[prop])
         }
 
     }
