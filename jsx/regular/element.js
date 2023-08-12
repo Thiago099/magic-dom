@@ -354,7 +354,31 @@ class builder
         }
         this.remove()
     }
+
+    $prop(name, value)
+    {
+        return (old) => {
+
+            if(old)
+            {
+                this.removeAttribute(old.name, old.value);
+            }
+
+            if(directList.includes(name))
+            {
+                this[name] = value
+            }
+            else
+            {
+                this.setAttribute(name, value)
+            }
+
+            return {name, value}
+        }
+    }
 }
+
+const directList = ["disabled"]
 
 let builderInstance = new builder()
 

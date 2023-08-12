@@ -44,8 +44,11 @@ function state(value){
                     },
                     set $value(v)
                     {
-                        target[key] = v
-                        update()
+                        if(target[key] != v)
+                        {
+                            target[key] = v
+                            update()
+                        }
                     },
                     set $content(v)
                     {
@@ -72,8 +75,11 @@ function state(value){
             return target[key]
         },
         set (target, key, _value) {
-            target[key] = _value;
-            update()
+            if(target[key] != _value)
+            {
+                target[key] = _value;
+                update()
+            }
           return true
         }
       }

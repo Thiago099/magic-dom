@@ -82,6 +82,8 @@ const JSXNode = (name, props, ...children) => {
         }
     }
 
+    const directList = ["disabled"]
+
     const extraHandles = {
         "on": (event,callback) =>
         {
@@ -112,8 +114,9 @@ const JSXNode = (name, props, ...children) => {
         }
         else
         {
-            el.setAttribute(prop,dig(props[prop]).element)
+            el.$prop(prop, props[prop])
         }
+
     }
 
     return el;
