@@ -180,7 +180,7 @@ myState.$content = "newText"
 ```
 
 
-you can create scoped css that is valid only to some elements, by naming the file with the sulfix .scoped.css
+You can create scoped CSS that is valid only to some elements, by naming the file with the suffix .scoped.css
 
 then you can use the tag scope to apply the css
 ```jsx
@@ -189,7 +189,7 @@ const myElement =
 <div scope="my-style">
 </div>
 ```
-on the css the :root pseudo element referes to the element that owns the scope
+In the CSS the: root pseudo element refers to the element with the scope tag
 ```jsx
 :root{
     color:red;
