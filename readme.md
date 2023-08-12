@@ -178,3 +178,20 @@ let myInput = <input model={myState}/>
 myState.$content = "newText"
 // the input is still on myText
 ```
+
+
+you can create scoped css that is valid only to some elements, by naming the file with the sulfix .scoped.css
+
+then you can use the tag scope to apply the css
+```jsx
+import "./my-style.scoped.css"
+const myElement = 
+<div scope="my-style">
+</div>
+```
+on the css the :root pseudo element referes to the element that owns the scope
+```jsx
+:root{
+    color:red;
+}
+```
