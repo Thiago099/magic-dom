@@ -192,7 +192,7 @@ function buildPattern(pattern)
             let result = {}
             for(let i = 0; i < match.length;i++)
             {
-                result[groups[i]] = match[i]
+                result[groups[i]] = decodeURI(match[i])
             }
             return result
         }
