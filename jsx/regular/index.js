@@ -44,7 +44,7 @@ const JSXNode = (name, props, ...children) => {
         class: _class => {
             el.$class(_class)
         },
-        class: x => {
+        scope: x => {
             el.$scope(x)
         },
         css: css =>{
