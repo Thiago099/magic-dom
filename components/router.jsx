@@ -152,6 +152,11 @@ function Router(routes, main = null)
 
     function navigate(path)
     {
+        if(path == undefined)
+        {
+            __navigate(currentPath)
+            return
+        }
         backRoutes.push(currentPath)
         __navigate(path)
     }
