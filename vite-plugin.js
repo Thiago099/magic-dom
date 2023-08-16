@@ -29,11 +29,12 @@ function Plugin(config)
             }
         }),
         transform(code, id, options) {
+
             if(config.name == "regular")
             {
                 if (id.endsWith('.jsx')) {
-                    code = transformJSX(code);
-                    // console.log(code)
+                    code = transformJSX(code, id);
+                    code.map = JSON.parse(code.map.toString())
                 }
             }
             if(id.endsWith('.scoped.css'))

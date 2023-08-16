@@ -1,6 +1,6 @@
 {
   "name": "magic-dom",
-  "version": "5.1.7",
+  "version": "5.1.8",
   "description": "",
   "main": "index.js",
   "type": "module",
@@ -13,21 +13,15 @@
   "dependencies": {
     "acorn": "^8.9.0",
     "css": "^3.0.0",
-    "escodegen": "^2.0.0"
+    "escodegen": "^2.0.0",
+    "sourcemap": "^0.1.0"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Thiago099/magic-dom.git"
   },
-
-  "author": "",
-
   "bugs": {
-
     "url": "https://github.com/Thiago099/magic-dom/issues"
-
   },
-
   "homepage": "https://github.com/Thiago099/magic-dom#readme"
-
 }
