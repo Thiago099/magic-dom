@@ -13,7 +13,7 @@ class builder
     {
         if(Array.isArray(el))
         {
-            for(const item of el)
+            for(const item of el.flat())
             {
                 this.$child(item)
             }

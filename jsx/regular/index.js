@@ -88,8 +88,6 @@ const JSXNode = (name, props, ...children) => {
         }
     }
 
-    const directList = ["disabled"]
-
     const extraHandles = {
         "on": (event,callback) =>
         {

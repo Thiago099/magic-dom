@@ -231,7 +231,7 @@ class builder
     {
         if(Array.isArray(el))
         {
-            for(const item of el)
+            for(const item of el.flat())
             {
                 if(!(item instanceof HTMLElement))
                 {
@@ -265,7 +265,7 @@ class builder
 
             if(Array.isArray(el))
             {
-                el = el.filter(x => x != null)
+                el = el.filter(x => x != null).flat()
                 if(el.length == 0)
                 {
                     el = [element("span")]
