@@ -128,9 +128,9 @@ const myElement =
 <div scope="my-style">
 </div>
 ```
-In the CSS the: root pseudo element refers to the element with the scope property
+In the CSS the :scope pseudo element refers to the element with the scope property
 ```jsx
-:root{
+:scope{
     color:red;
 }
 ```

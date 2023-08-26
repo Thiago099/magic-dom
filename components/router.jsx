@@ -47,6 +47,7 @@ function Router(routes, main = null)
 
     if(!routes["/"] && currentPath == "")
     {
+        if(main != "__ignore__")
         navigate(main ?? Object.keys(routes)[0])
     }
     else

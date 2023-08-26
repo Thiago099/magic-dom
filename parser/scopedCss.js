@@ -19,9 +19,9 @@ function transform(code,id)
             }
             for(const index in rule.selectors)
             {
-                if(rule.selectors[index].includes(":root"))
+                if(rule.selectors[index].includes(":scope"))
                 {
-                    rule.selectors[index] = rule.selectors[index].replace(/:root/g, matchRule)
+                    rule.selectors[index] = rule.selectors[index].replace(/:scope/g, matchRule)
                 }
                 else
                 {
