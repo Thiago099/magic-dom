@@ -408,6 +408,7 @@ let blacklist = [
     "$update",
     "$parent",
     "$scope",
+    "$getComputedStyle",
     "remove"
 ]
 
