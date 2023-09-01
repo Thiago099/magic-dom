@@ -187,6 +187,10 @@ class builder
     $parent(element)
     {
         element.appendChild(this)
+        if(element.__children != null)
+        {
+            element.__children.push(this)
+        }
         return this
     }
 
@@ -240,6 +244,7 @@ class builder
                 else
                 {
                     this.appendChild(item)
+                    this.__children.push(item)
                 }
             }
         }
@@ -250,6 +255,7 @@ class builder
                 el = document.createTextNode(el)
             }
             this.appendChild(el)
+            this.__children.push(el)
         }
     }
 
@@ -282,6 +288,7 @@ class builder
                     for(const item of el)
                     {
                         this.insertBefore(item, sample)
+                        this.__children.push(item)
                     }
                 }
                 else
@@ -289,6 +296,7 @@ class builder
                     for(const item of el)
                     {
                         this.appendChild(item)
+                        this.__children.push(item)
                     }
                 }
             }
@@ -306,10 +314,12 @@ class builder
                 if(sample)
                 {
                     sample.replaceWith(el)
+                    this.__children.push(el)
                 }
                 else
                 {
                     this.appendChild(el)
+                    this.__children.push(el)
                 }
             }
 
@@ -319,26 +329,12 @@ class builder
                 {
                     for(const item of old)
                     {
-                        if(item.__remove)
-                        {
-                            item.__remove()
-                        }
-                        else
-                        {
-                            item.remove()
-                        }
+                        item.remove()
                     }
                 }
                 else
                 {
-                    if(old.__remove)
-                    {
-                        old.__remove()
-                    }
-                    else
-                    {
-                        old.remove()
-                    }
+                    old.remove()
                 }
             }
             
@@ -346,13 +342,19 @@ class builder
         }
     }
 
-    __remove()
+    remove(remove)
     {
-        for(const item of this.__state)
-        {
-            item.$unsubscribe(this)
+        return () => {
+            for(const item of this.__state)
+            {
+                item.$unsubscribe(this)
+            }
+            for(const item of this.__children)
+            {
+                item.remove()
+            }
+            remove.apply(this)
         }
-        this.remove()
     }
 
     __scope(name)
@@ -419,10 +421,17 @@ function element(name)
     result = document.createElement(name);
 
     result.__events = []
+    result.__children = []
     result.__state = []
 
     for(const item of getFunctionsFromClass(builder))
     {
+        if(item == "remove")
+        {
+            const remove = result.remove
+            result.remove = builderInstance[item].apply(result, [remove])
+        }
+        else
         if(blacklist.includes(item) || !item.startsWith("$"))
         {
             result[item] = (...params) => {
